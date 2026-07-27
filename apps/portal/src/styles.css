@@ -413,7 +413,8 @@ button:focus-visible {
   text-transform: uppercase;
 }
 
-.engine-plate {
+.engine-plate,
+.orbit-plate {
   position: relative;
   overflow: hidden;
   min-height: 500px;
@@ -433,12 +434,14 @@ button:focus-visible {
   transition: transform 300ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(.2, .8, .2, 1);
 }
 
-.home-hero__visual:hover .engine-plate {
+.home-hero__visual:hover .engine-plate,
+.home-hero__visual:hover .orbit-plate {
   transform: translateY(-5px) rotate(-0.25deg);
   box-shadow: 28px 32px 0 rgba(37, 35, 31, 0.07);
 }
 
-.engine-plate__label {
+.engine-plate__label,
+.orbit-plate__label {
   position: absolute;
   z-index: 2;
   top: 20px;
@@ -453,7 +456,8 @@ button:focus-visible {
   text-transform: uppercase;
 }
 
-.engine-plate svg {
+.engine-plate svg,
+.orbit-plate svg {
   position: absolute;
   inset: 52px 2% 40px;
   width: 96%;
@@ -515,6 +519,72 @@ button:focus-visible {
   bottom: 16px;
   margin: 0;
   color: #9ca7b7;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.orbit-plate {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  border: 1px solid rgba(37, 35, 31, 0.32);
+  background:
+    linear-gradient(rgba(255, 211, 105, 0.5), rgba(255, 211, 105, 0.5)) left top / 20px 1.5px,
+    linear-gradient(rgba(255, 211, 105, 0.5), rgba(255, 211, 105, 0.5)) left top / 1.5px 20px,
+    linear-gradient(rgba(255, 211, 105, 0.5), rgba(255, 211, 105, 0.5)) right bottom / 20px 1.5px,
+    linear-gradient(rgba(255, 211, 105, 0.5), rgba(255, 211, 105, 0.5)) right bottom / 1.5px 20px,
+    #070711;
+  background-repeat: no-repeat;
+  box-shadow: 22px 24px 0 rgba(37, 35, 31, 0.055);
+  transition: transform 300ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.orbit-plate__label {
+  color: #aaa4bd;
+}
+
+.orbit-plate__stars circle {
+  fill: #d8d2ef;
+  opacity: 0.72;
+}
+
+.orbit-plate__paths > * {
+  fill: none;
+  stroke: #736d93;
+  stroke-dasharray: 3 9;
+  stroke-width: 1;
+}
+
+.orbit-plate__sun {
+  transform-origin: 335px 220px;
+  animation: orbit-pulse 3s ease-in-out infinite;
+}
+
+.orbit-plate__probe path {
+  fill: none;
+  stroke: #ff9b43;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.orbit-plate__probe .orbit-plate__probe-body {
+  fill: #fff1bd;
+  stroke: none;
+}
+
+.orbit-plate svg text {
+  fill: #8e889f;
+  font: 600 9px var(--font-mono);
+  letter-spacing: 0.13em;
+}
+
+.orbit-plate__caption {
+  position: absolute;
+  right: 22px;
+  bottom: 16px;
+  margin: 0;
+  color: #aaa4bd;
   font-family: var(--font-serif);
   font-size: 13px;
   font-style: italic;
@@ -716,6 +786,16 @@ button:focus-visible {
   to { stroke-dashoffset: -46; }
 }
 
+@keyframes orbit-pulse {
+  0%,
+  100% {
+    transform: scale(0.98);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
 @keyframes loading-line {
   0%, 100% { opacity: 0.25; transform: scaleX(0.45); transform-origin: left; }
   50% { opacity: 1; transform: scaleX(1); transform-origin: left; }
@@ -731,7 +811,8 @@ button:focus-visible {
     max-width: 740px;
   }
 
-  .engine-plate {
+  .engine-plate,
+  .orbit-plate {
     min-height: 480px;
   }
 
@@ -814,24 +895,28 @@ button:focus-visible {
     border-bottom: 1px solid var(--line);
   }
 
-  .engine-plate {
+  .engine-plate,
+  .orbit-plate {
     min-height: 320px;
     box-shadow: 10px 12px 0 rgba(37, 35, 31, 0.055);
   }
 
-  .engine-plate__label {
+  .engine-plate__label,
+  .orbit-plate__label {
     top: 14px;
     right: 14px;
     left: 14px;
   }
 
-  .engine-plate svg {
+  .engine-plate svg,
+  .orbit-plate svg {
     inset: 44px 0 30px;
     width: 100%;
     height: calc(100% - 74px);
   }
 
-  .engine-plate__caption {
+  .engine-plate__caption,
+  .orbit-plate__caption {
     right: 14px;
     bottom: 10px;
     font-size: 11px;

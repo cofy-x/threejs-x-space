@@ -6,9 +6,23 @@ Playful Three.js experiments, strange machines, visual systems, and interactive 
 
 The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a pnpm and Turborepo workspace.
 
-[Explore the live collection](https://cofy-x.github.io/threejs-x-space/) · [Open the Turbofan Airflow Simulator](https://cofy-x.github.io/threejs-x-space/experiences/turbofan)
+[Explore the live collection](https://cofy-x.github.io/threejs-x-space/) · [Play Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital)
 
-## Current experience
+## Current experiences
+
+### 02 — Orbital Playground
+
+Launch a deep-space probe into a miniature planetary system and use gravity to complete three close flybys.
+
+- Drag the probe to set its launch direction and velocity.
+- Orbit and zoom through a fully three-dimensional gravity system.
+- Read the projected 3D path before releasing the probe.
+- Explore a NASA Blue Marble Earth with moving clouds and night lights, an SDO-observed Sun with turbulent plasma, a Viking-mapped cratered Mars, and a layered Milky Way backdrop.
+- Preserve completed gravity assists across retries and build a score combo.
+- Switch between overview and chase cameras.
+- Play with pointer or touch input in responsive layouts.
+
+After starting the development server, open [`/experiences/orbital`](http://localhost:5173/experiences/orbital).
 
 ### 01 — Turbofan Airflow Simulator
 

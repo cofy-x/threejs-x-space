@@ -1,0 +1,368 @@
+.orbital-experience {
+  --orbital-ink: #f8f3e6;
+  --orbital-muted: #9a98ab;
+  --orbital-line: rgba(221, 216, 255, 0.16);
+  --orbital-gold: #ffd369;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  background: #05050b;
+  color: var(--orbital-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  isolation: isolate;
+}
+
+.orbital-experience::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 42%, transparent 34%, rgba(5, 5, 11, 0.52) 100%),
+    linear-gradient(180deg, rgba(5, 5, 11, 0.46), transparent 24%, transparent 72%, rgba(5, 5, 11, 0.7));
+  content: "";
+}
+
+.orbital-canvas {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  cursor: grab;
+  touch-action: none;
+}
+
+.orbital-canvas:active {
+  cursor: grabbing;
+}
+
+.orbital-header,
+.orbital-controls,
+.orbital-guide,
+.orbital-telemetry,
+.orbital-help {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.orbital-help__mobile {
+  display: none;
+}
+
+.orbital-header {
+  top: clamp(22px, 4vw, 48px);
+  right: clamp(22px, 4vw, 58px);
+  left: clamp(22px, 4vw, 58px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.orbital-kicker,
+.orbital-mission span,
+.orbital-telemetry span,
+.orbital-score span {
+  margin: 0;
+  color: var(--orbital-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.orbital-header h1 {
+  margin: 8px 0 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: clamp(28px, 3.8vw, 52px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.94;
+}
+
+.orbital-mission {
+  display: grid;
+  max-width: 280px;
+  gap: 7px;
+  padding: 12px 0 12px 24px;
+  border-left: 1px solid var(--orbital-line);
+  text-align: right;
+}
+
+.orbital-mission strong {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.orbital-guide {
+  top: 50%;
+  left: clamp(22px, 4vw, 58px);
+  display: flex;
+  align-items: center;
+  width: min(230px, 24vw);
+  gap: 12px;
+  transform: translateY(-50%);
+}
+
+.orbital-guide p {
+  margin: 0;
+  color: #bbb8c6;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.orbital-guide__signal {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--orbital-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(255, 184, 72, 0.72);
+}
+
+.orbital-guide__signal--flying,
+.orbital-guide__signal--aiming-safe {
+  background: var(--orbital-gold);
+}
+
+.orbital-guide__signal--crashed,
+.orbital-guide__signal--aiming-danger {
+  border-color: #e06b60;
+  background: #e06b60;
+  box-shadow: 0 0 18px rgba(224, 107, 96, 0.6);
+}
+
+.orbital-guide__signal--complete,
+.orbital-guide__signal--aiming-assist {
+  border-color: #7de4bb;
+  background: #7de4bb;
+  box-shadow: 0 0 18px rgba(125, 228, 187, 0.6);
+}
+
+.orbital-telemetry {
+  top: 50%;
+  right: clamp(22px, 4vw, 58px);
+  display: grid;
+  min-width: 134px;
+  border-top: 1px solid var(--orbital-line);
+  transform: translateY(-50%);
+}
+
+.orbital-telemetry > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--orbital-line);
+}
+
+.orbital-telemetry strong {
+  color: var(--orbital-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.orbital-telemetry small {
+  color: #858293;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.orbital-controls {
+  right: clamp(22px, 4vw, 58px);
+  bottom: clamp(20px, 3.4vw, 42px);
+  left: clamp(22px, 4vw, 58px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.orbital-score {
+  display: grid;
+  gap: 4px;
+}
+
+.orbital-score strong {
+  color: var(--orbital-gold);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+.orbital-actions {
+  display: flex;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.orbital-button {
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid rgba(229, 225, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(10, 9, 18, 0.62);
+  backdrop-filter: blur(12px);
+  color: #d5d0df;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.orbital-button:hover {
+  border-color: rgba(255, 211, 105, 0.62);
+  color: #fff4d8;
+  transform: translateY(-1px);
+}
+
+.orbital-button--primary {
+  border-color: var(--orbital-gold);
+  background: var(--orbital-gold);
+  color: #15100a;
+}
+
+.orbital-help {
+  bottom: clamp(82px, 9vw, 112px);
+  left: 50%;
+  margin: 0;
+  color: rgba(231, 225, 244, 0.55);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .orbital-header {
+    top: 18px;
+    right: 18px;
+    left: 18px;
+  }
+
+  .orbital-header h1 {
+    font-size: 30px;
+  }
+
+  .orbital-mission {
+    max-width: 144px;
+    padding-left: 14px;
+  }
+
+  .orbital-mission strong {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .orbital-guide {
+    top: auto;
+    right: 18px;
+    bottom: 142px;
+    left: 18px;
+    width: auto;
+    padding: 11px 13px;
+    border: 1px solid var(--orbital-line);
+    border-radius: 10px;
+    background: rgba(8, 7, 14, 0.64);
+    backdrop-filter: blur(10px);
+    transform: none;
+  }
+
+  .orbital-guide p {
+    font-size: 12px;
+  }
+
+  .orbital-telemetry {
+    top: 122px;
+    right: 18px;
+    left: 18px;
+    grid-template-columns: repeat(3, 1fr);
+    min-width: 0;
+    border-bottom: 1px solid var(--orbital-line);
+    transform: none;
+  }
+
+  .orbital-telemetry > div {
+    display: grid;
+    justify-content: start;
+    gap: 4px;
+    padding: 9px 12px;
+    border-right: 1px solid var(--orbital-line);
+    border-bottom: 0;
+  }
+
+  .orbital-telemetry > div:first-child {
+    padding-left: 0;
+  }
+
+  .orbital-telemetry > div:last-child {
+    border-right: 0;
+  }
+
+  .orbital-telemetry strong {
+    font-size: 14px;
+  }
+
+  .orbital-controls {
+    right: 18px;
+    bottom: 16px;
+    left: 18px;
+    display: grid;
+    gap: 9px;
+  }
+
+  .orbital-score {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .orbital-score strong {
+    font-size: 20px;
+  }
+
+  .orbital-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .orbital-actions .orbital-button--primary {
+    grid-column: 1 / -1;
+  }
+
+  .orbital-button {
+    min-height: 42px;
+    padding: 0 10px;
+    font-size: 8px;
+  }
+
+  .orbital-help {
+    bottom: 201px;
+  }
+
+  .orbital-help__desktop {
+    display: none;
+  }
+
+  .orbital-help__mobile {
+    display: inline;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-button {
+    transition: none;
+  }
+}

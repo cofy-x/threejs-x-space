@@ -12,6 +12,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@threejs-x-space/experience-orbital": "workspace:*",
     "@threejs-x-space/experience-turbofan": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

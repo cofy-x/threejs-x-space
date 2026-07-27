@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { OrbitalPreview } from "./components/orbital-preview";
 import { TurbofanPreview } from "./components/turbofan-preview";
 
 interface ExperienceMetaBase {
@@ -50,16 +51,21 @@ export const EXPERIENCES: ExperienceMeta[] = [
   {
     id: "orbital",
     number: "02",
-    title: "Orbital Mechanics Lab",
-    shortTitle: "Orbital Mechanics",
+    title: "Orbital Playground",
+    shortTitle: "Orbital Playground",
     description:
-      "Shape an orbit, bend a trajectory, and experiment with transfer windows in a tactile gravity sandbox.",
+      "Launch a deep-space probe, bend its path around planetary bodies, and chain gravity assists in three dimensions.",
     path: "/experiences/orbital",
-    tags: ["Physics", "Simulation"],
-    accent: "#6f63b8",
-    runtime: "WebGL / R3F",
-    interaction: "Shape / Observe",
-    status: "coming-soon",
+    tags: ["WebGL Shaders", "3D Physics", "Postprocessing"],
+    accent: "#d88a35",
+    runtime: "WebGL 2 / R3F",
+    interaction: "Orbit / Launch",
+    status: "live",
+    preview: OrbitalPreview,
+    load: () =>
+      import("@threejs-x-space/experience-orbital").then((module) => ({
+        default: module.OrbitalExperience,
+      })),
   },
   {
     id: "fluid",
