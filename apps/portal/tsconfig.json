@@ -1,0 +1,4 @@
+{
+  "extends": "@threejs-x-space/config-typescript/vite-app.json",
+  "include": ["src", "vite.config.ts"]
+}

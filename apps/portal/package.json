@@ -1,0 +1,30 @@
+{
+  "name": "@threejs-x-space/portal",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@threejs-x-space/experience-turbofan": "workspace:*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0"
+  },
+  "devDependencies": {
+    "@threejs-x-space/config-eslint": "workspace:*",
+    "@threejs-x-space/config-typescript": "workspace:*",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.5.0",
+    "eslint": "^9.29.0",
+    "typescript": "^5.8.0",
+    "vite": "^6.3.0"
+  }
+}
