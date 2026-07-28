@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { LivingInkPreview } from "./components/living-ink-preview";
 import { OrbitalPreview } from "./components/orbital-preview";
 import { TurbofanPreview } from "./components/turbofan-preview";
 
@@ -11,6 +12,7 @@ interface ExperienceMetaBase {
   path: string;
   tags: string[];
   accent: string;
+  chromeTheme: "dark" | "light";
   runtime: string;
   interaction: string;
   preview?: ComponentType;
@@ -39,6 +41,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     path: "/experiences/turbofan",
     tags: ["React Three Fiber", "Particles", "Simulation"],
     accent: "#3157d5",
+    chromeTheme: "dark",
     runtime: "WebGL / R3F",
     interaction: "Orbit / Simulate",
     status: "live",
@@ -58,6 +61,7 @@ export const EXPERIENCES: ExperienceMeta[] = [
     path: "/experiences/orbital",
     tags: ["WebGL Shaders", "3D Physics", "Postprocessing"],
     accent: "#d88a35",
+    chromeTheme: "dark",
     runtime: "WebGL 2 / R3F",
     interaction: "Orbit / Launch",
     status: "live",
@@ -68,17 +72,23 @@ export const EXPERIENCES: ExperienceMeta[] = [
       })),
   },
   {
-    id: "fluid",
+    id: "living-ink",
     number: "03",
-    title: "Fluid Field Visualizer",
-    shortTitle: "Fluid Fields",
+    title: "Living Ink",
+    shortTitle: "Living Ink",
     description:
-      "Release particles into a GPU-driven flow field and reveal the hidden structure of motion.",
-    path: "/experiences/fluid",
-    tags: ["GLSL", "GPU Particles"],
-    accent: "#2f7c62",
-    runtime: "WebGL / GLSL",
-    interaction: "Release / Trace",
-    status: "coming-soon",
+      "Touch a quiet sheet of paper and guide living currents into an evolving pigment composition.",
+    path: "/experiences/living-ink",
+    tags: ["GPGPU", "GLSL", "Generative Art"],
+    accent: "#b65349",
+    chromeTheme: "light",
+    runtime: "WebGL 2 / GLSL",
+    interaction: "Touch / Paint",
+    status: "live",
+    preview: LivingInkPreview,
+    load: () =>
+      import("@threejs-x-space/experience-living-ink").then((module) => ({
+        default: module.LivingInkExperience,
+      })),
   },
 ];

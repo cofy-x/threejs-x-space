@@ -6,9 +6,23 @@ Playful Three.js experiments, strange machines, visual systems, and interactive 
 
 The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a pnpm and Turborepo workspace.
 
-[Explore the live collection](https://cofy-x.github.io/threejs-x-space/) · [Play Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital)
+[Explore the live collection](https://cofy-x.github.io/threejs-x-space/) · [Paint with Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink)
 
 ## Current experiences
+
+### 03 — Living Ink
+
+Touch a quiet sheet of paper and guide living currents into an evolving pigment composition.
+
+- Tap to bloom pigment and drag to shape the flow.
+- Switch between three curated palettes without destroying the current artwork.
+- Pause, clear, and tune the strength or turbulence of the current.
+- Save the finished artwork as a clean PNG without interface chrome.
+- Paint with pointer or touch input in responsive layouts.
+
+Living Ink uses GPU particle computation, half-float ping-pong textures, and procedural paper compositing. It creates a tactile 2.5D result without requiring a freely orbiting camera or a full fluid-pressure solver.
+
+After starting the development server, open [`/experiences/living-ink`](http://localhost:5173/experiences/living-ink).
 
 ### 02 — Orbital Playground
 

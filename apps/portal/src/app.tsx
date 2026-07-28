@@ -10,9 +10,9 @@ const EXPERIENCE_ROUTES = EXPERIENCES.flatMap((experience) => {
   return [{ ...experience, Component: lazy(experience.load) }];
 });
 
-function ExperienceFallback() {
+function ExperienceFallback({ theme }: { theme: "dark" | "light" }) {
   return (
-    <div className="experience-fallback" role="status" aria-live="polite">
+    <div className={`experience-fallback experience-fallback--${theme}`} role="status" aria-live="polite">
       <span>Loading the experiment</span>
       <i aria-hidden="true" />
     </div>
@@ -26,13 +26,13 @@ export function App() {
       <main className="portal-main">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          {EXPERIENCE_ROUTES.map(({ id, path, Component }) => (
+          {EXPERIENCE_ROUTES.map(({ id, path, chromeTheme, Component }) => (
             <Route
               key={id}
               path={path}
               element={
-                <ExperienceBoundary>
-                  <Suspense fallback={<ExperienceFallback />}>
+                <ExperienceBoundary theme={chromeTheme}>
+                  <Suspense fallback={<ExperienceFallback theme={chromeTheme} />}>
                     <Component />
                   </Suspense>
                 </ExperienceBoundary>

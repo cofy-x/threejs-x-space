@@ -1,3 +1,4 @@
+import { type CSSProperties } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { EXPERIENCES } from "../experiences";
 
@@ -16,9 +17,16 @@ export function PortalNav() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const activeExperience = EXPERIENCES.find((item) => item.path === location.pathname);
+  const experienceTheme = activeExperience?.chromeTheme ?? "dark";
+  const style = activeExperience
+    ? ({ "--portal-experience-accent": activeExperience.accent } as CSSProperties)
+    : undefined;
 
   return (
-    <nav className={`portal-nav portal-nav--${isHome ? "home" : "experience"}`}>
+    <nav
+      className={`portal-nav portal-nav--${isHome ? "home" : `experience portal-nav--experience-${experienceTheme}`}`}
+      style={style}
+    >
       <Link to="/" className="portal-nav__brand" aria-label="Three.js X Space home">
         <Mark />
         <span>Three.js X Space</span>

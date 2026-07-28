@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 interface ExperienceBoundaryProps {
   children: ReactNode;
+  theme: "dark" | "light";
 }
 
 interface ExperienceBoundaryState {
@@ -23,7 +24,7 @@ export class ExperienceBoundary extends Component<ExperienceBoundaryProps, Exper
   override render() {
     if (this.state.hasError) {
       return (
-        <div className="experience-error" role="alert">
+        <div className={`experience-error experience-error--${this.props.theme}`} role="alert">
           <p>Experience unavailable</p>
           <h1>This experiment could not be loaded.</h1>
           <span>Reload the page to try again, or return to the collection.</span>
