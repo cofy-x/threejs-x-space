@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { LivingInkPreview } from "./components/living-ink-preview";
 import { OrbitalPreview } from "./components/orbital-preview";
+import { RobotPreview } from "./components/robot-preview";
 import { TurbofanPreview } from "./components/turbofan-preview";
 
 interface ExperienceMetaBase {
@@ -89,6 +90,26 @@ export const EXPERIENCES: ExperienceMeta[] = [
     load: () =>
       import("@threejs-x-space/experience-living-ink").then((module) => ({
         default: module.LivingInkExperience,
+      })),
+  },
+  {
+    id: "robot",
+    number: "04",
+    title: "Retro Box Bot Assembly",
+    shortTitle: "Box Bot Assembly",
+    description:
+      "Pull a retro desktop-computer robot apart piece by piece and learn how its sensors, chassis, pistons, and joints fit together.",
+    path: "/experiences/robot",
+    tags: ["Procedural Modeling", "R3F", "Education"],
+    accent: "#2f6fe0",
+    chromeTheme: "light",
+    runtime: "WebGL / R3F",
+    interaction: "Orbit / Explode / Inspect",
+    status: "live",
+    preview: RobotPreview,
+    load: () =>
+      import("@threejs-x-space/experience-robot").then((module) => ({
+        default: module.RobotExperience,
       })),
   },
 ];

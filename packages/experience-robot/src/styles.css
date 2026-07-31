@@ -1,0 +1,349 @@
+.robot-experience {
+  --robot-accent: #2f6fe0;
+  --robot-surface: #f3f2ef;
+  --robot-panel: #fbfaf8;
+  --robot-border: #e0ddd6;
+  --robot-text: #26241f;
+  --robot-muted: #6f6a60;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: var(--robot-surface);
+  color: var(--robot-text);
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+
+.robot-header {
+  padding: 20px 28px 12px;
+}
+
+.robot-header__kicker {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--robot-accent);
+}
+
+.robot-header__title {
+  margin: 4px 0 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.robot-header__premise {
+  margin: 6px 0 0;
+  max-width: 52ch;
+  font-size: 14px;
+  color: var(--robot-muted);
+}
+
+.robot-main {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-height: 480px;
+}
+
+.robot-view {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.robot-view--review {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+}
+
+body.robot-review .portal-nav,
+body.robot-review .robot-header,
+body.robot-review .parts-panel,
+body.robot-review .robot-footer {
+  display: none;
+}
+
+.parts-panel {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  margin: 0 20px 20px 0;
+  background: var(--robot-panel);
+  border: 1px solid var(--robot-border);
+  border-radius: 12px;
+  overflow-y: auto;
+}
+
+.parts-panel__label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--robot-muted);
+  margin-bottom: 8px;
+}
+
+.parts-panel__play {
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--robot-accent);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.parts-panel__play:hover:not(:disabled) {
+  background: #265ec4;
+}
+
+.parts-panel__play:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.parts-panel__play:focus-visible {
+  outline: 2px solid var(--robot-accent);
+  outline-offset: 2px;
+}
+
+.robot-tag {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--robot-text, #26241f);
+  background: rgba(251, 250, 248, 0.92);
+  border: 1px solid var(--robot-border, #e0ddd6);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(38, 36, 31, 0.12);
+  pointer-events: none;
+}
+
+.parts-panel__guided {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--robot-border);
+}
+
+.parts-panel__dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.parts-panel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1.5px solid var(--robot-border);
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.parts-panel__dot--done {
+  background: var(--robot-accent);
+  border-color: var(--robot-accent);
+}
+
+.parts-panel__step-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.parts-panel__step-btn {
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--robot-text);
+  background: transparent;
+  border: 1px solid var(--robot-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease, opacity 120ms ease;
+}
+
+.parts-panel__step-btn:hover:not(:disabled) {
+  border-color: var(--robot-accent);
+}
+
+.parts-panel__step-btn--primary {
+  background: var(--robot-accent);
+  border-color: var(--robot-accent);
+  color: #fff;
+}
+
+.parts-panel__step-btn--primary:hover:not(:disabled) {
+  background: #265ec4;
+}
+
+.parts-panel__step-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.parts-panel__step-btn:focus-visible {
+  outline: 2px solid var(--robot-accent);
+  outline-offset: 2px;
+}
+
+.parts-panel__step-hint {
+  margin: 0;
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.04em;
+  color: var(--robot-muted);
+  text-align: center;
+}
+
+.parts-panel__item-index {
+  margin-right: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: var(--robot-muted);
+}
+
+.parts-panel__item--active .parts-panel__item-index {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.parts-panel__control input[type="range"] {
+  width: 100%;
+  accent-color: var(--robot-accent);
+}
+
+.parts-panel__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.parts-panel__item {
+  padding: 8px 10px;
+  font-size: 12px;
+  text-align: left;
+  color: var(--robot-text);
+  background: transparent;
+  border: 1px solid var(--robot-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.parts-panel__item:hover {
+  border-color: var(--robot-accent);
+}
+
+.parts-panel__item:focus-visible {
+  outline: 2px solid var(--robot-accent);
+  outline-offset: 2px;
+}
+
+.parts-panel__item--active {
+  background: var(--robot-accent);
+  border-color: var(--robot-accent);
+  color: #fff;
+}
+
+.parts-panel__info {
+  border-top: 1px solid var(--robot-border);
+  padding-top: 14px;
+  min-height: 120px;
+}
+
+.parts-panel__info-title {
+  margin: 0 0 8px;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 19px;
+  font-weight: 650;
+}
+
+.parts-panel__specs {
+  margin: 12px 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+}
+
+.parts-panel__spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-top: 1px solid var(--robot-border);
+}
+
+.parts-panel__spec-row dt {
+  color: var(--robot-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+}
+
+.parts-panel__spec-row dd {
+  margin: 0;
+  text-align: right;
+  color: var(--robot-text);
+}
+
+.parts-panel__info-body {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--robot-muted);
+}
+
+.parts-panel__info-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--robot-muted);
+}
+
+.robot-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 28px 18px;
+  font-size: 12px;
+  color: var(--robot-muted);
+}
+
+.robot-footer__status {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--robot-accent);
+}
+
+@media (max-width: 820px) {
+  .robot-main {
+    flex-direction: column;
+  }
+
+  .robot-view {
+    min-height: 52vh;
+  }
+
+  .parts-panel {
+    width: auto;
+    margin: 12px;
+    max-height: 40vh;
+  }
+}

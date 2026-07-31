@@ -579,14 +579,16 @@ button:focus-visible {
 
 .home-hero__visual:hover .engine-plate,
 .home-hero__visual:hover .orbit-plate,
-.home-hero__visual:hover .ink-plate {
+.home-hero__visual:hover .ink-plate,
+.home-hero__visual:hover .robot-plate {
   transform: translateY(-5px) rotate(-0.25deg);
   box-shadow: 28px 32px 0 rgba(37, 35, 31, 0.07);
 }
 
 .engine-plate__label,
 .orbit-plate__label,
-.ink-plate__label {
+.ink-plate__label,
+.robot-plate__label {
   position: absolute;
   z-index: 2;
   top: 20px;
@@ -603,7 +605,8 @@ button:focus-visible {
 
 .engine-plate svg,
 .orbit-plate svg,
-.ink-plate svg {
+.ink-plate svg,
+.robot-plate svg {
   position: absolute;
   inset: 52px 2% 40px;
   width: 96%;
@@ -665,6 +668,103 @@ button:focus-visible {
   bottom: 16px;
   margin: 0;
   color: #9ca7b7;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.robot-plate {
+  position: relative;
+  overflow: hidden;
+  min-height: 500px;
+  border: 1px solid #d8d4cc;
+  background:
+    linear-gradient(#c9c4b8, #c9c4b8) left top / 20px 1.5px,
+    linear-gradient(#c9c4b8, #c9c4b8) left top / 1.5px 20px,
+    linear-gradient(#c9c4b8, #c9c4b8) right top / 20px 1.5px,
+    linear-gradient(#c9c4b8, #c9c4b8) right top / 1.5px 20px,
+    linear-gradient(#c9c4b8, #c9c4b8) left bottom / 20px 1.5px,
+    linear-gradient(#c9c4b8, #c9c4b8) left bottom / 1.5px 20px,
+    linear-gradient(#c9c4b8, #c9c4b8) right bottom / 20px 1.5px,
+    linear-gradient(#c9c4b8, #c9c4b8) right bottom / 1.5px 20px,
+    #f3f2ef;
+  background-repeat: no-repeat;
+  box-shadow: 22px 24px 0 rgba(37, 35, 31, 0.055);
+  transition: transform 300ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.robot-plate__label {
+  color: #8a8478;
+}
+
+.robot-plate__grid line {
+  stroke: #d5d0c5;
+  stroke-width: 1;
+}
+
+.robot-plate__shell {
+  fill: #e7e7e5;
+  stroke: #b9b6ae;
+  stroke-width: 1.5;
+}
+
+.robot-plate__panel {
+  fill: #b1afaf;
+}
+
+.robot-plate__dark {
+  fill: #3d3c3a;
+}
+
+.robot-plate__dim {
+  fill: #595856;
+}
+
+.robot-plate__rubber {
+  fill: #272727;
+}
+
+.robot-plate__lens {
+  fill: #46483c;
+  stroke: #c4c3c3;
+  stroke-width: 2;
+}
+
+.robot-plate__line {
+  stroke: #4d4c4b;
+  stroke-width: 2;
+}
+
+.robot-plate__led {
+  fill: #e8c93c;
+}
+
+.robot-plate__limb {
+  transition: transform 500ms cubic-bezier(.2, .8, .2, 1);
+}
+
+.home-hero__visual:hover .robot-plate__limb {
+  transform: translateY(6px);
+}
+
+.robot-plate__callout path {
+  fill: none;
+  stroke: #a39d8f;
+  stroke-width: 1;
+}
+
+.robot-plate__callout text {
+  fill: #6f6a60;
+  font: 600 11px var(--font-mono);
+  letter-spacing: 0.08em;
+}
+
+.robot-plate__caption {
+  position: absolute;
+  right: 22px;
+  bottom: 16px;
+  margin: 0;
+  color: #8a8478;
   font-family: var(--font-serif);
   font-size: 13px;
   font-style: italic;
@@ -1226,14 +1326,16 @@ button:focus-visible {
 
   .engine-plate,
   .orbit-plate,
-  .ink-plate {
+  .ink-plate,
+  .robot-plate {
     min-height: 320px;
     box-shadow: 10px 12px 0 rgba(37, 35, 31, 0.055);
   }
 
   .engine-plate__label,
   .orbit-plate__label,
-  .ink-plate__label {
+  .ink-plate__label,
+  .robot-plate__label {
     top: 14px;
     right: 14px;
     left: 14px;
@@ -1241,7 +1343,8 @@ button:focus-visible {
 
   .engine-plate svg,
   .orbit-plate svg,
-  .ink-plate svg {
+  .ink-plate svg,
+  .robot-plate svg {
     inset: 44px 0 30px;
     width: 100%;
     height: calc(100% - 74px);
@@ -1249,7 +1352,8 @@ button:focus-visible {
 
   .engine-plate__caption,
   .orbit-plate__caption,
-  .ink-plate__caption {
+  .ink-plate__caption,
+  .robot-plate__caption {
     right: 14px;
     bottom: 10px;
     font-size: 11px;
