@@ -1,26 +1,10 @@
 # Experience design guidance
 
-## Purpose
+## Design ownership
 
-`threejs-x-space` should feel like a curated collection of memorable interactive 3D work, not a set of unrelated demos and not a single theme repeated across different subjects. This document defines shared decision-making principles and quality gates. It does not prescribe one palette, layout, genre, or interface style.
-
-## Design layers
-
-### Collection layer
-
-The portal owns the collection identity. It should make experiments easy to discover, establish a recognizable editorial voice, and give each project enough space to communicate its premise. Portal navigation and catalog behavior should remain consistent even as individual experiences become visually diverse.
-
-### Experience layer
-
-Each experience owns its art direction. Begin with its subject, intended feeling, main interaction, and technical constraints. A scientific instrument, an abstract toy, a narrative scene, a generative artwork, and a physics simulation should not be forced into the same visual language.
-
-An experience may be light, dark, colorful, monochrome, spatial, cinematic, playful, or utilitarian when that choice supports the concept. The turbofan's graphite instrument theme is one valid solution for an aerospace simulation, not a default template.
-
-### Shared system layer
-
-Shared packages should encode reusable behavior and themeable primitives. They must not silently impose the visual assumptions of the first experience that uses them. Prefer semantic tokens and explicit component APIs over copied values or global selectors.
-
-Promote a pattern into `packages/ui` or `packages/three-utils` when it is broadly useful or when a second real use case proves the abstraction. Keep speculative or strongly themed patterns inside their owning experience.
+- **Portal:** own the collection identity, discovery, and consistent navigation.
+- **Experience:** choose art direction from the subject, intended feeling, main interaction, and technical constraints. Light, dark, colorful, cinematic, and utilitarian directions are all valid; no existing experience is a global template.
+- **Shared packages:** provide reusable behavior and themeable primitives with semantic tokens and explicit APIs. Keep strongly themed or speculative patterns in the owning experience until real reuse justifies extraction.
 
 ## Experience brief
 
@@ -47,8 +31,6 @@ The 3D subject should normally be the focal point. Interface elements may frame,
 ### Use color semantically
 
 Create a small semantic palette for each experience. Separate roles such as surface, text, primary action, live data, selection, success, warning, danger, heat, or motion when those concepts exist. Do not reuse a color for unrelated meanings merely because it is visually attractive.
-
-Brand continuity can come from a restrained recurring accent or navigation treatment, but an experience may choose a different dominant palette. Avoid defaulting to cyan-on-navy, neon glow, or dark mode simply because the project uses Three.js.
 
 ### Give typography explicit jobs
 
@@ -96,7 +78,7 @@ Do not require feature parity when it would make mobile unusable. Preserve the c
 - Provide keyboard access for interface controls and visible focus treatment.
 - Give meaningful canvas experiences a concise text premise and usable controls outside the canvas when appropriate.
 - Make loading and failure states intentional. A missing asset or unsupported capability should not leave an unexplained blank region.
-- Keep interface copy concise, specific, and in English.
+- Keep interface copy concise and specific.
 
 ## Performance principles
 
@@ -112,7 +94,7 @@ Visual ambition must remain compatible with a public web experience.
 
 ## Review checklist
 
-Review each new experience and substantial visual change in at least one representative desktop viewport and one narrow mobile viewport. Exercise the initial state, primary active state, and any important paused, completed, or failure state.
+For visual reviews and changes to visible or interactive behavior, inspect the running portal and affected experience routes in at least one representative desktop viewport and one narrow mobile viewport. Exercise the initial state, primary active state, and any important paused, completed, or failure state.
 
 Confirm that:
 
@@ -124,6 +106,6 @@ Confirm that:
 - No unintended horizontal overflow or clipped essential control exists.
 - Reduced motion, keyboard use, loading, and failure behavior are reasonable for the experience.
 - The GitHub Pages base path works.
-- `pnpm build`, `pnpm lint`, and `pnpm typecheck` pass.
+- The [repository validation requirements](../AGENTS.md#validation) are satisfied.
 
 Document intentional exceptions near the owning experience. An exception is acceptable when it strengthens the concept and does not break core accessibility, navigation, or deployment requirements.

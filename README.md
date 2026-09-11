@@ -6,60 +6,18 @@ Playful Three.js experiments, strange machines, visual systems, and interactive 
 
 The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a pnpm and Turborepo workspace.
 
-[Explore the live collection](https://cofy-x.github.io/threejs-x-space/) · [Paint with Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink)
+[Explore the live collection](https://cofy-x.github.io/threejs-x-space/)
 
 ## Current experiences
 
-### 03 — Living Ink
+| Experience | Main interaction | Details |
+| :--- | :--- | :--- |
+| [04 — Retro Box Bot Assembly](https://cofy-x.github.io/threejs-x-space/experiences/robot) | Orbit, explode, and inspect a procedural retro robot to learn how its assemblies connect. | [Experience notes](packages/experience-robot/README.md) |
+| [03 — Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink) | Tap and drag to paint flowing pigment, tune the current, and save the artwork as a PNG. | [Experience notes](packages/experience-living-ink/README.md) |
+| [02 — Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital) | Launch a probe, preview its trajectory, and chain gravity assists in a miniature planetary system. | [Asset credits](packages/experience-orbital/ASSET_CREDITS.md) |
+| [01 — Turbofan Airflow Simulator](https://cofy-x.github.io/threejs-x-space/experiences/turbofan) | Inspect a cutaway engine, control its simulation, and follow airflow and live telemetry. | — |
 
-Touch a quiet sheet of paper and guide living currents into an evolving pigment composition.
-
-- Tap to bloom pigment and drag to shape the flow.
-- Switch between three curated palettes without destroying the current artwork.
-- Pause, clear, and tune the strength or turbulence of the current.
-- Save the finished artwork as a clean PNG without interface chrome.
-- Paint with pointer or touch input in responsive layouts.
-
-Living Ink uses GPU particle computation, half-float ping-pong textures, and procedural paper compositing. It creates a tactile 2.5D result without requiring a freely orbiting camera or a full fluid-pressure solver.
-
-After starting the development server, open [`/experiences/living-ink`](http://localhost:5173/experiences/living-ink).
-
-### 02 — Orbital Playground
-
-Launch a deep-space probe into a miniature planetary system and use gravity to complete three close flybys.
-
-- Drag the probe to set its launch direction and velocity.
-- Orbit and zoom through a fully three-dimensional gravity system.
-- Read the projected 3D path before releasing the probe.
-- Explore a NASA Blue Marble Earth with moving clouds and night lights, an SDO-observed Sun with turbulent plasma, a Viking-mapped cratered Mars, and a layered Milky Way backdrop.
-- Preserve completed gravity assists across retries and build a score combo.
-- Switch between overview and chase cameras.
-- Play with pointer or touch input in responsive layouts.
-
-After starting the development server, open [`/experiences/orbital`](http://localhost:5173/experiences/orbital).
-
-### 01 — Turbofan Airflow Simulator
-
-Open a cutaway jet engine, follow its airflow stages, and watch thrust emerge through animated geometry, particles, gauges, and live telemetry.
-
-- Orbit and inspect the engine in real time.
-- Start, pause, and resume the simulation.
-- Toggle the casing and airflow visualization.
-- Follow RPM, thrust, temperature, pressure ratio, and fuel flow.
-- Use the experience on desktop and mobile layouts.
-
-After starting the development server, open [`/experiences/turbofan`](http://localhost:5173/experiences/turbofan).
-
-## Project principles
-
-- Give every experience a clear premise, focal point, and primary interaction.
-- Let each experience choose the visual theme that best supports its subject; light, dark, colorful, cinematic, playful, and utilitarian directions are all valid.
-- Keep the portal recognizable without forcing one experience's style onto the rest of the collection.
-- Use color, motion, sound, and effects purposefully.
-- Treat responsive behavior, accessibility, input feedback, and frame stability as part of the design.
-- Promote code into shared packages only when it is genuinely reusable.
-
-The maintained framework is documented in the [experience design guidance](.x/design.md).
+Each experience owns its art direction and primary interaction. The portal provides a consistent collection identity, while responsive behavior, accessibility, and frame stability remain shared expectations. See the [experience design guidance](.x/design.md) for the design and review criteria.
 
 ## Getting started
 
@@ -75,11 +33,11 @@ pnpm install
 pnpm dev
 ```
 
-The local portal is available at `http://localhost:5173/` by default.
+The local portal is available at `http://localhost:5173/` by default. Open an experience from the portal, or use `/experiences/<id>` with `robot`, `living-ink`, `orbital`, or `turbofan` as the ID. The `/threejs-x-space/` prefix applies to production builds, not the development server.
 
 ## Validation
 
-Run the repository checks before submitting a change:
+Run the repository checks before final review:
 
 ```sh
 pnpm build
@@ -104,12 +62,13 @@ Experiences remain separate packages so their scene logic, interface, dependenci
 
 ## Adding an experience
 
-1. Create a package named `packages/experience-<name>`.
+1. Create `packages/experience-<name>` with a package manifest, an exported experience component, and the configuration and check scripts used by existing experience packages.
 2. Keep its scene, state, interface, and styles inside that package until a pattern is proven reusable.
-3. Add its metadata and lazy loader to `apps/portal/src/experiences.ts`.
+3. Add the package to `apps/portal/package.json` dependencies using `workspace:*`, run `pnpm install` to update the lockfile, and register its metadata and lazy loader in `apps/portal/src/experiences.ts`.
 4. Provide a lightweight portal preview that does not eagerly load the full Three.js scene.
 5. Support the `/threejs-x-space/` GitHub Pages base path.
-6. Review the initial and active states on representative desktop and mobile viewports.
+6. Update the catalog above and add a short package README describing the experience.
+7. Follow the [design review checklist](.x/design.md#review-checklist) and [validation requirements](AGENTS.md#validation).
 
 Read [AGENTS.md](AGENTS.md) and the [.x maintainer index](.x/README.md) before making repository changes.
 
@@ -129,4 +88,4 @@ This is an evolving experiment collection. Experience concepts, shared primitive
 
 Original source code in this repository is available under the [MIT License](LICENSE).
 
-Third-party dependencies and any future external models, textures, fonts, audio, or other assets remain subject to their own licenses. Assets that require attribution or additional notices must document those requirements alongside the owning experience or in a repository-level notice file.
+Third-party dependencies, models, textures, fonts, audio, and other assets remain subject to their own licenses and usage terms. Record required attribution and notices alongside the owning experience or in a repository-level notice file. See the [Orbital Playground asset credits](packages/experience-orbital/ASSET_CREDITS.md) for the imagery currently used in that experience.

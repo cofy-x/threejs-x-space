@@ -4,10 +4,11 @@ This directory contains detailed, evolving guidance for maintaining `threejs-x-s
 
 ## Task routing
 
+- For an existing experience, read its package README if present and any relevant local documentation before editing.
 - For visual design, interaction design, a new experience, portal presentation, shared UI work, or visual review, read the [experience design guidance](design.md).
 - For a focused implementation change with no visual or architectural impact, follow `AGENTS.md` and the conventions already present in the target package.
 - For GitHub Pages deployment, use the workflow and base-path requirements documented in the repository README and `AGENTS.md`.
 
 ## Maintenance rule
 
-Add guidance here only when it is reusable across future experiences. Keep one-off decisions close to the experience that owns them. When implementation and guidance diverge, update both in the same change or state why the exception is intentional.
+Add guidance here only when it is reusable across future experiences. Keep one-off decisions close to the experience that owns them. When adding, renaming, or removing an experience, update the root README catalog alongside the portal registry. When implementation and guidance diverge, update both in the same change or state why the exception is intentional.
