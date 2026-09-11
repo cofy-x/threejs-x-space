@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { CourierPreview } from "./components/courier-preview";
 import { LivingInkPreview } from "./components/living-ink-preview";
 import { OrbitalPreview } from "./components/orbital-preview";
 import { RobotPreview } from "./components/robot-preview";
@@ -110,6 +111,26 @@ export const EXPERIENCES: ExperienceMeta[] = [
     load: () =>
       import("@threejs-x-space/experience-robot").then((module) => ({
         default: module.RobotExperience,
+      })),
+  },
+  {
+    id: "courier",
+    number: "05",
+    title: "Clockwork Courier",
+    shortTitle: "Clockwork Courier",
+    description:
+      "One little robot. One precious core. Cross clockwork islands, wake sleeping machines, and deliver a little daylight.",
+    path: "/experiences/courier",
+    tags: ["Blender", "Puzzle Adventure", "Three.js"],
+    accent: "#be562f",
+    chromeTheme: "light",
+    runtime: "WebGL / R3F",
+    interaction: "Explore / Solve / Deliver",
+    status: "live",
+    preview: CourierPreview,
+    load: () =>
+      import("@threejs-x-space/experience-courier").then((module) => ({
+        default: module.CourierExperience,
       })),
   },
 ];

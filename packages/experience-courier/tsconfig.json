@@ -1,0 +1,4 @@
+{
+  "extends": "@threejs-x-space/config-typescript/react-library.json",
+  "include": ["src"]
+}

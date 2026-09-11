@@ -12,6 +12,7 @@ The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a p
 
 | Experience | Main interaction | Details |
 | :--- | :--- | :--- |
+| [05 — Clockwork Courier](https://cofy-x.github.io/threejs-x-space/experiences/courier) | Guide a little postal robot across mechanical islands, reuse one energy core, and bring a lighthouse back to life. | [Experience notes](packages/experience-courier/README.md) |
 | [04 — Aster Robotics Lab](https://cofy-x.github.io/threejs-x-space/experiences/robot) | Initialize a field robot, calibrate its systems, and explore its mechanical anatomy in an interactive lab. | [Experience notes](packages/experience-robot/README.md) |
 | [03 — Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink) | Tap and drag to paint flowing pigment, tune the current, and save the artwork as a PNG. | [Experience notes](packages/experience-living-ink/README.md) |
 | [02 — Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital) | Launch a probe, preview its trajectory, and chain gravity assists in a miniature planetary system. | [Asset credits](packages/experience-orbital/ASSET_CREDITS.md) |
@@ -33,7 +34,7 @@ pnpm install
 pnpm dev
 ```
 
-The local portal is available at `http://localhost:5173/` by default. Open an experience from the portal, or use `/experiences/<id>` with `robot`, `living-ink`, `orbital`, or `turbofan` as the ID. The `/threejs-x-space/` prefix applies to production builds, not the development server.
+The local portal is available at `http://localhost:5173/` by default. Open an experience from the portal, or use `/experiences/<id>` with `courier`, `robot`, `living-ink`, `orbital`, or `turbofan` as the ID. The `/threejs-x-space/` prefix applies to production builds, not the development server.
 
 ## Validation
 
