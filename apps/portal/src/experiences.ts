@@ -95,16 +95,16 @@ export const EXPERIENCES: ExperienceMeta[] = [
   {
     id: "robot",
     number: "04",
-    title: "Retro Box Bot Assembly",
-    shortTitle: "Box Bot Assembly",
+    title: "Aster Robotics Lab",
+    shortTitle: "Aster Robotics Lab",
     description:
-      "Pull a retro desktop-computer robot apart piece by piece and learn how its sensors, chassis, pistons, and joints fit together.",
+      "Bring a field robot to life. Explore its mechanical anatomy, calibrate its systems, and prepare it for the unknown.",
     path: "/experiences/robot",
-    tags: ["Procedural Modeling", "R3F", "Education"],
-    accent: "#2f6fe0",
-    chromeTheme: "light",
+    tags: ["Procedural Modeling", "Robotics", "Interactive World"],
+    accent: "#a94f28",
+    chromeTheme: "dark",
     runtime: "WebGL / R3F",
-    interaction: "Orbit / Explode / Inspect",
+    interaction: "Initialize / Diagnose / Explore",
     status: "live",
     preview: RobotPreview,
     load: () =>

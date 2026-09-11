@@ -677,94 +677,23 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   min-height: 500px;
-  border: 1px solid #d8d4cc;
-  background:
-    linear-gradient(#c9c4b8, #c9c4b8) left top / 20px 1.5px,
-    linear-gradient(#c9c4b8, #c9c4b8) left top / 1.5px 20px,
-    linear-gradient(#c9c4b8, #c9c4b8) right top / 20px 1.5px,
-    linear-gradient(#c9c4b8, #c9c4b8) right top / 1.5px 20px,
-    linear-gradient(#c9c4b8, #c9c4b8) left bottom / 20px 1.5px,
-    linear-gradient(#c9c4b8, #c9c4b8) left bottom / 1.5px 20px,
-    linear-gradient(#c9c4b8, #c9c4b8) right bottom / 20px 1.5px,
-    linear-gradient(#c9c4b8, #c9c4b8) right bottom / 1.5px 20px,
-    #f3f2ef;
-  background-repeat: no-repeat;
+  border: 1px solid #4a626c;
+  background: radial-gradient(ellipse at 50% 35%, #213c48, #101f29 75%);
   box-shadow: 22px 24px 0 rgba(37, 35, 31, 0.055);
   transition: transform 300ms cubic-bezier(.2, .8, .2, 1), box-shadow 300ms cubic-bezier(.2, .8, .2, 1);
 }
 
-.robot-plate__label {
-  color: #8a8478;
-}
-
-.robot-plate__grid line {
-  stroke: #d5d0c5;
-  stroke-width: 1;
-}
-
-.robot-plate__shell {
-  fill: #e7e7e5;
-  stroke: #b9b6ae;
-  stroke-width: 1.5;
-}
-
-.robot-plate__panel {
-  fill: #b1afaf;
-}
-
-.robot-plate__dark {
-  fill: #3d3c3a;
-}
-
-.robot-plate__dim {
-  fill: #595856;
-}
-
-.robot-plate__rubber {
-  fill: #272727;
-}
-
-.robot-plate__lens {
-  fill: #46483c;
-  stroke: #c4c3c3;
-  stroke-width: 2;
-}
-
-.robot-plate__line {
-  stroke: #4d4c4b;
-  stroke-width: 2;
-}
-
-.robot-plate__led {
-  fill: #e8c93c;
-}
-
-.robot-plate__limb {
-  transition: transform 500ms cubic-bezier(.2, .8, .2, 1);
-}
-
-.home-hero__visual:hover .robot-plate__limb {
-  transform: translateY(6px);
-}
-
-.robot-plate__callout path {
-  fill: none;
-  stroke: #a39d8f;
-  stroke-width: 1;
-}
-
-.robot-plate__callout text {
-  fill: #6f6a60;
-  font: 600 11px var(--font-mono);
-  letter-spacing: 0.08em;
-}
-
+.robot-plate__label { color: #a5b8bf; }
+.robot-plate__callout path { stroke: #78919b; stroke-width: 1; opacity: 0.6; }
+.robot-plate__callout text { fill: #a1b4bc; font: 500 10px var(--font-mono); letter-spacing: 0.08em; }
+.robot-plate__core { transform-origin: 381px 164px; transition: transform 1s ease; }
+.home-hero__visual:hover .robot-plate__core { transform: rotate(120deg); }
 .robot-plate__caption {
   position: absolute;
   right: 22px;
   bottom: 16px;
   margin: 0;
-  color: #8a8478;
+  color: #a5b8bf;
   font-family: var(--font-serif);
   font-size: 13px;
   font-style: italic;

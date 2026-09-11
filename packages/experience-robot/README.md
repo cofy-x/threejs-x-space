@@ -1,38 +1,47 @@
-# Retro Box Bot Assembly
+# Aster Robotics Lab
 
-Orbit, pull apart, and inspect a procedural retro desktop-computer robot to learn how its assemblies connect. Open `/experiences/robot` after starting the portal with the [repository setup instructions](../../README.md#getting-started).
+Bring a field robot to life in an interactive commissioning bay. Initialize Aster, calibrate its systems, and separate its assemblies to discover the machinery beneath the ceramic armor.
+
+Open `/experiences/robot` after following the [repository setup instructions](../../README.md#getting-started).
 
 ## Experience brief
 
-- **Premise:** explore a robot as an assembly exhibit on a display pedestal.
-- **Feeling:** a museum-like studio presentation, with a white robot against a gray stage and light page chrome.
-- **Main action:** replay the assembly animation, use guided assembly steps or the explode slider, and select parts to inspect their descriptions.
-- **Focal point:** the robot and its mechanical connections, framed by a graphite pedestal.
-- **Meaningful states:** assembled, assembling, exploded, and a selected part with camera focus and supporting information.
-- **Responsive strategy:** canvas beside the parts panel on desktop; canvas above the parts panel on mobile, with labels limited to selected or hovered parts.
-- **Constraints:** procedural geometry and textures without external model or image assets; reduced-motion support for the intro and idle animation; keyboard-accessible part controls.
+- **Premise:** prepare a curious field companion for its next expedition.
+- **Feeling:** a quiet, purposeful robotics lab with a tangible machine at its center.
+- **Main action:** initialize the unit, then complete the vision, power, and motion diagnostics.
+- **Focal point:** Aster's silhouette, optical visor, protected energy module, and articulated limbs.
+- **Meaningful states:** standby, initialization, online, a running or paused diagnostic, three systems calibrated, and disassembled.
+- **Responsive strategy:** a full-scene desktop composition with compact controls; a vertically scrollable mobile layout with the model above its controls and expandable system descriptions.
+- **Constraints:** procedural assets, bounded rendering cost, reduced-motion support, accessible HTML controls, and recoverable state.
 
-## Model and rendering
+## Explore the lab
 
-The model uses retro computer details, articulated limbs, cables, pistons, and emissive indicators. Printed markings and instrument graphics are generated on canvas. Contact ambient occlusion, selective emissive bloom, and a subtle floor reflection establish depth without obscuring the assemblies.
+- **Observe:** initialize Aster and follow its commissioning progress. Nothing starts automatically.
+- **Diagnose:** select a system from the controls or directly on the model. Each simulated diagnostic has a visible response: an optical sweep, sequential energy circuits, or an articulated arm and gripper exercise. All three distinct checks are required for field-ready status.
+- **Disassemble:** release the armor before separating the main assemblies. Adjust separation continuously and reassemble at any time outside a running sequence. This view is available even in standby.
 
-Front and three-quarter AI-generated references informed the original model; the back-panel design extends the same concept with cooling, power, and connector details. The implementation is self-contained and does not require the reference images or generation tools.
+Pause freezes the active sequence and idle motion. Cancel discards only the current unfinished sequence. Reset returns the unit to standby and clears calibration progress. Progress is local to the current visit.
 
-## Implementation map
+Drag to orbit and scroll to zoom on desktop. On mobile, horizontal drags orbit while vertical swipes scroll the page. With the canvas focused, arrow keys orbit, `+` / `-` zoom, and `Home` restores the current view. The reset-camera button provides the same recovery without a keyboard.
 
-- [Model factory](src/components/three/create-robot-model.ts): `createRobotModel()` returns a Three.js group. `getSculptRuntime(root)` exposes its `parts`, `partInfos`, and `explode` interface through `root.userData.sculptRuntime`.
-- [Part metadata](src/components/three/part-infos.ts): assembly order and educational descriptions.
-- [Procedural decals](src/components/three/create-decals.ts): runtime textures and markings.
-- [Model animation](src/components/three/robot-model.tsx): assembly transitions and idle behavior.
-- [Assembly state](src/state/assembly.tsx): guided steps, selection, playback, and explode amount.
-- [Scene and camera](src/components/robot-view.tsx): lighting, stage, labels, camera controls, and review views.
+## Implementation
 
-## Visual review
+- [Lab state machine](src/state/lab.ts): explicit power, diagnostic, pause, cancellation, and reset transitions. [The controller](src/state/use-lab.ts) advances sequences only while the page is visible.
+- [Robot model](src/components/model/aster.ts): procedural armor, frame, mechanical joints, and independently powered energy sectors. Static surfaces are batched by material within each movable assembly.
+- [Geometry utilities](src/components/model/geometry.ts): beveled panels, joints, cables, canvas labels, batching, and resource disposal.
+- [Lab scene](src/components/lab-scene.tsx): lighting, environment, camera transitions, articulated motion, input, and WebGL context recovery.
+- [Interface](src/index.tsx): operating modes, system descriptions, accessible progress, and scene controls.
 
-The experience route accepts these query parameters:
+All models, markings, and environment lighting are generated locally in code; there are no external models, image assets, fonts, or network-loaded environments. The portal uses a separate lightweight SVG illustration and does not preload the Three.js scene.
 
-- `review=front|three-quarter|side|top|rear|rear-tq` selects a review camera and hides surrounding interface chrome and labels.
-- `explode=0..1` sets the initial separation amount, clamped to that range.
-- Either parameter suppresses the automatic assembly intro.
+Reduced motion removes idle motion, scan sweeps, joint animation, and animated camera transitions while retaining diagnostic progress and results. The mobile renderer uses a lower pixel-ratio cap and smaller shadow buffers. A lost WebGL context can be restored without clearing completed checks.
 
-For example, `/experiences/robot?review=three-quarter&explode=1` opens an exploded review view. Use the normal route to verify controls, labels, guided assembly, and responsive composition under the [shared design review checklist](../../.x/design.md#review-checklist).
+## Validation
+
+Follow the [repository checks](../../AGENTS.md#validation) and [design review checklist](../../.x/design.md#review-checklist). Run the state-machine regression tests with:
+
+```sh
+pnpm --filter @threejs-x-space/experience-robot test
+```
+
+Review standby, initialization, pause/resume, cancellation, all three diagnostics, completion, disassembly, reset, reduced motion, and graphics recovery on desktop and mobile. Verify direct navigation under the production base path as well as returning to the portal.

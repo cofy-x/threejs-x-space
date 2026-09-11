@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.1.0",

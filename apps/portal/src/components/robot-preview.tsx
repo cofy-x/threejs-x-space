@@ -1,65 +1,209 @@
+import { useId } from "react";
+
+/** A lightweight illustration; the actual Three.js lab loads only on its route. */
 export function RobotPreview() {
+  const id = useId().replace(/:/g, "");
   return (
     <div className="robot-plate" aria-hidden="true">
       <div className="robot-plate__label">
-        <span>Live preview</span>
-        <span>Assembly / explode</span>
+        <span>Aster / Field robotics</span>
+        <span>Unit 04</span>
       </div>
-      <svg viewBox="0 0 760 430">
-        <g className="robot-plate__grid" opacity="0.3">
-          {Array.from({ length: 14 }, (_, index) => (
-            <line key={`v-${index}`} x1={50 + index * 50} y1="35" x2={50 + index * 50} y2="395" />
+      <svg viewBox="0 0 760 430" fill="none">
+        <defs>
+          <linearGradient id={`${id}-shell`} x1="0" y1="0" x2="1" y2="0">
+            <stop stopColor="#e2e8df" />
+            <stop offset="0.5" stopColor="#c3ceca" />
+            <stop offset="1" stopColor="#799398" />
+          </linearGradient>
+          <linearGradient id={`${id}-floor`} x1="0" y1="0" x2="0" y2="1">
+            <stop stopColor="#344954" />
+            <stop offset="1" stopColor="#14242e" />
+          </linearGradient>
+          <radialGradient id={`${id}-light`}>
+            <stop stopColor="#7fc5ce" stopOpacity="0.13" />
+            <stop offset="1" stopColor="#7fc5ce" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <ellipse
+          cx="385"
+          cy="210"
+          rx="225"
+          ry="200"
+          fill={`url(#${id}-light)`}
+        />
+        <path d="M140 370V38h480v332" stroke="#36505a" strokeWidth="8" />
+        <path
+          d="M148 300V43m465 0v257M165 39h427"
+          stroke="#b9d1d1"
+          strokeWidth="2"
+          opacity="0.65"
+        />
+        <path
+          d="M0 408 320 220M760 408 440 220"
+          stroke="#ed9e6a"
+          opacity="0.28"
+        />
+        <ellipse
+          cx="380"
+          cy="377"
+          rx="132"
+          ry="25"
+          fill="#0b1821"
+          stroke="#49616a"
+        />
+        <ellipse
+          cx="380"
+          cy="370"
+          rx="126"
+          ry="25"
+          fill={`url(#${id}-floor)`}
+          stroke="#d99565"
+          strokeWidth="2"
+        />
+        <g className="robot-plate__aster">
+          <path
+            d="M345 56 355 43h50l13 13v35l-9 11h-56l-8-11Z"
+            fill={`url(#${id}-shell)`}
+            stroke="#e3e8e0"
+            strokeOpacity="0.45"
+          />
+          <rect
+            x="349"
+            y="64"
+            width="64"
+            height="27"
+            rx="6"
+            fill="#0b1b25"
+            stroke="#5f797f"
+          />
+          <path d="M357 60h46" stroke="#efa16d" strokeWidth="3" />
+          <path d="M358 77h16m14 0h16" stroke="#a1e5e7" strokeWidth="3" />
+          <path d="M367 103v15h26v-15" fill="#203541" stroke="#688188" />
+          <path
+            d="m335 119 15-9h60l16 9-8 82-21 17h-36l-20-17Z"
+            fill="#12242e"
+            stroke="#3d5660"
+          />
+          <circle
+            cx="381"
+            cy="164"
+            r="22"
+            fill="#0c1d28"
+            stroke="#526e78"
+            strokeWidth="4"
+          />
+          <circle
+            className="robot-plate__core"
+            cx="381"
+            cy="164"
+            r="15"
+            stroke="#9bdfdf"
+            strokeWidth="3"
+            strokeDasharray="25 6"
+          />
+          <path d="m337 120 25 5 4 23-7 42-16-2Z" fill={`url(#${id}-shell)`} />
+          <path d="m424 120-25 5-4 23 7 42 16-2Z" fill={`url(#${id}-shell)`} />
+          <path d="m343 135 13 2m49 0 13-2" stroke="#db8959" strokeWidth="2" />
+          <path
+            d="M365 211h31m-28 8h25m-22 8h19"
+            stroke="#748c91"
+            strokeWidth="4"
+          />
+          <path
+            d="m351 235 9-5h42l9 5-5 23h-50Z"
+            fill="#243b46"
+            stroke="#688188"
+          />
+          <path
+            d="M357 235h15v15h-15Zm33 0h15v15h-15Z"
+            fill={`url(#${id}-shell)`}
+          />
+          {[-1, 1].map((side) => (
+            <g
+              key={side}
+              transform={
+                side === 1 ? "translate(761 0) scale(-1 1)" : undefined
+              }
+            >
+              <path d="m329 124-14 13-6 56" stroke="#57737e" strokeWidth="12" />
+              <rect
+                x="298"
+                y="117"
+                width="33"
+                height="29"
+                rx="9"
+                fill={`url(#${id}-shell)`}
+              />
+              <path d="M303 125h22" stroke="#e5a172" strokeWidth="3" />
+              <rect
+                x="302"
+                y="153"
+                width="20"
+                height="34"
+                rx="6"
+                fill={`url(#${id}-shell)`}
+              />
+              <circle
+                cx="309"
+                cy="197"
+                r="8"
+                fill="#1a303c"
+                stroke="#6a858e"
+                strokeWidth="2"
+              />
+              <path d="m297 210 26-1-5 47-17-1Z" fill={`url(#${id}-shell)`} />
+              <path d="M309 218v24" stroke="#203844" strokeWidth="3" />
+              <rect
+                x="301"
+                y="260"
+                width="16"
+                height="13"
+                rx="3"
+                fill="#657e84"
+              />
+              <path
+                d="M302 274v9m7-9v10m7-10v9"
+                stroke="#8d9fa0"
+                strokeWidth="3"
+              />
+              <path d="M355 262h23l-3 41h-17Z" fill={`url(#${id}-shell)`} />
+              <rect
+                x="359"
+                y="307"
+                width="17"
+                height="9"
+                rx="4"
+                fill="#3d5c67"
+                stroke="#8da4a7"
+              />
+              <path d="M358 320h18l-2 35h-14Z" fill={`url(#${id}-shell)`} />
+              <path
+                d="m359 357 16 1v11h-29v-6Z"
+                fill={`url(#${id}-shell)`}
+                stroke="#657f88"
+              />
+            </g>
           ))}
-          {Array.from({ length: 7 }, (_, index) => (
-            <line key={`h-${index}`} x1="30" y1={65 + index * 50} x2="730" y2={65 + index * 50} />
-          ))}
-        </g>
-        <g className="robot-plate__bot">
-          <rect x="330" y="26" width="100" height="44" rx="8" className="robot-plate__shell" />
-          <rect x="338" y="34" width="84" height="30" rx="5" className="robot-plate__dark" />
-          <circle cx="380" cy="49" r="11" className="robot-plate__lens" />
-          <circle cx="357" cy="49" r="7" className="robot-plate__dim" />
-          <circle cx="404" cy="49" r="5" className="robot-plate__lens" />
-          <line x1="352" y1="24" x2="346" y2="8" className="robot-plate__line" />
-          <line x1="410" y1="24" x2="414" y2="4" className="robot-plate__line" />
-          <rect x="368" y="72" width="24" height="10" rx="4" className="robot-plate__rubber" />
-          <rect x="312" y="86" width="136" height="122" rx="8" className="robot-plate__shell" />
-          <rect x="322" y="96" width="116" height="22" rx="3" className="robot-plate__panel" />
-          <rect x="322" y="124" width="116" height="22" rx="3" className="robot-plate__panel" />
-          <rect x="322" y="152" width="70" height="24" rx="3" className="robot-plate__dark" />
-          <rect x="398" y="152" width="40" height="24" rx="3" className="robot-plate__panel" />
-          <rect x="322" y="182" width="116" height="18" rx="3" className="robot-plate__dark" />
-          <rect x="334" y="212" width="92" height="34" rx="7" className="robot-plate__shell" />
-          <g className="robot-plate__limb">
-            <rect x="282" y="92" width="24" height="58" rx="8" className="robot-plate__shell" />
-            <rect x="286" y="154" width="16" height="52" rx="6" className="robot-plate__panel" />
-            <circle cx="294" cy="212" r="9" className="robot-plate__dim" />
-          </g>
-          <g className="robot-plate__limb">
-            <rect x="454" y="92" width="24" height="58" rx="8" className="robot-plate__shell" />
-            <rect x="458" y="154" width="16" height="52" rx="6" className="robot-plate__panel" />
-            <circle cx="466" cy="212" r="9" className="robot-plate__dim" />
-          </g>
-          <g className="robot-plate__limb">
-            <rect x="322" y="252" width="34" height="78" rx="8" className="robot-plate__shell" />
-            <rect x="326" y="334" width="30" height="24" rx="5" className="robot-plate__panel" />
-          </g>
-          <g className="robot-plate__limb">
-            <rect x="404" y="252" width="34" height="78" rx="8" className="robot-plate__shell" />
-            <rect x="404" y="334" width="30" height="24" rx="5" className="robot-plate__panel" />
-          </g>
         </g>
         <g className="robot-plate__callout">
-          <path d="M380 26V12h-60" />
-          <text x="238" y="16">01 / SENSOR HEAD</text>
-          <path d="M448 140h52v-40h60" />
-          <text x="566" y="104">02 / CHASSIS</text>
-          <path d="M356 300h-70v40" />
-          <text x="160" y="344">03 / DRIVE LEGS</text>
+          <path d="M344 76h-80v-9h-42" />
+          <text x="168" y="57">
+            01 / VISION
+          </text>
+          <path d="M424 164h75v-18h44" />
+          <text x="513" y="135">
+            02 / POWER
+          </text>
+          <path d="M358 308h-95v-22h-34" />
+          <text x="165" y="276">
+            03 / MOTION
+          </text>
         </g>
-        <circle cx="428" cy="157" r="3" className="robot-plate__led" />
       </svg>
-      <p className="robot-plate__caption">Fig. 04 — Eight assemblies, one desk companion.</p>
+      <p className="robot-plate__caption">
+        Engineered to explore. Waiting to wake up.
+      </p>
     </div>
   );
 }

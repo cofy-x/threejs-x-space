@@ -12,7 +12,7 @@ The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a p
 
 | Experience | Main interaction | Details |
 | :--- | :--- | :--- |
-| [04 — Retro Box Bot Assembly](https://cofy-x.github.io/threejs-x-space/experiences/robot) | Orbit, explode, and inspect a procedural retro robot to learn how its assemblies connect. | [Experience notes](packages/experience-robot/README.md) |
+| [04 — Aster Robotics Lab](https://cofy-x.github.io/threejs-x-space/experiences/robot) | Initialize a field robot, calibrate its systems, and explore its mechanical anatomy in an interactive lab. | [Experience notes](packages/experience-robot/README.md) |
 | [03 — Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink) | Tap and drag to paint flowing pigment, tune the current, and save the artwork as a PNG. | [Experience notes](packages/experience-living-ink/README.md) |
 | [02 — Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital) | Launch a probe, preview its trajectory, and chain gravity assists in a miniature planetary system. | [Asset credits](packages/experience-orbital/ASSET_CREDITS.md) |
 | [01 — Turbofan Airflow Simulator](https://cofy-x.github.io/threejs-x-space/experiences/turbofan) | Inspect a cutaway engine, control its simulation, and follow airflow and live telemetry. | — |
