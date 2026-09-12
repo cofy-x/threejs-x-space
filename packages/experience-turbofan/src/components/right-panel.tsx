@@ -1,7 +1,5 @@
-import { Button, Gauge, TimeSeriesChart } from "@threejs-x-space/ui";
-import { useSimulation } from "../state/simulation";
-
-const X_TICK_COUNT = 6;
+import { useId } from "react";
+import { useSimulation, type HistorySample } from "../state/simulation";
 
 function formatClock(totalSeconds: number): string {
   const minutes = Math.floor(totalSeconds / 60);
@@ -9,141 +7,158 @@ function formatClock(totalSeconds: number): string {
   return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
+function ThrustTrace({ history }: { history: HistorySample[] }) {
+  const gradientId = useId();
+  const samples = history.slice(-120);
+  const end = samples.at(-1)?.t ?? 0;
+  const start = Math.max(0, end - 30);
+  const points = samples.map((sample): [number, number] => [
+    2 + ((sample.t - start) / 30) * 234,
+    58 - (sample.thrust / 40000) * 52,
+  ]);
+  const line = points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" ");
+  const lastPoint = points.at(-1);
+  const firstPoint = points[0];
+
+  return (
+    <div className="thrust-trace">
+      <div className="right-panel__section-heading">
+        <h3>Thrust trace</h3>
+        <span>30 s window</span>
+      </div>
+      <svg
+        viewBox="0 0 240 64"
+        className="thrust-trace__plot"
+        role="img"
+        aria-label={history.length ? "Simulated thrust history over the last 30 seconds" : "Thrust history will appear when the engine starts"}
+      >
+        <defs>
+          <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#efa968" stopOpacity="0.19" />
+            <stop offset="100%" stopColor="#efa968" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {[6, 32, 58].map((y) => (
+          <line key={y} x1="2" x2="238" y1={y} y2={y} className="thrust-trace__grid" />
+        ))}
+        {firstPoint && lastPoint ? (
+          <>
+            <polygon points={`${firstPoint[0]},58 ${line} ${lastPoint[0]},58`} fill={`url(#${gradientId})`} />
+            <polyline points={line} fill="none" stroke="#efa968" strokeWidth="1.6" strokeLinejoin="round" />
+            <circle cx={lastPoint[0]} cy={lastPoint[1]} r="2.5" fill="#efa968" />
+          </>
+        ) : (
+          <text x="120" y="34" textAnchor="middle" className="thrust-trace__empty">Awaiting ignition</text>
+        )}
+      </svg>
+      <div className="thrust-trace__axis" aria-hidden="true">
+        <span>{formatClock(start)}</span>
+        <span>{formatClock(Math.max(30, end))}</span>
+      </div>
+    </div>
+  );
+}
+
+function ActionIcon({ paused }: { paused: boolean }) {
+  return (
+    <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+      {paused ? <path d="M5 3.5 12 8l-7 4.5Z" /> : <path d="M4 3h3v10H4zM9 3h3v10H9z" />}
+    </svg>
+  );
+}
+
 export function RightPanel() {
   const {
     phase,
+    progress,
     values,
     history,
     casingVisible,
     airflowVisible,
     start,
     pause,
+    reset,
     toggleCasing,
     toggleAirflow,
   } = useSimulation();
 
-  const firstSample = history.length > 0 ? history[0] : undefined;
-  const lastSample = history.length > 0 ? history[history.length - 1] : undefined;
-  const xLabels =
-    firstSample && lastSample
-      ? Array.from({ length: X_TICK_COUNT }, (_, i) =>
-          formatClock(firstSample.t + ((lastSample.t - firstSample.t) * i) / (X_TICK_COUNT - 1)),
-        )
-      : undefined;
+  const actionLabel = phase === "stopped" ? "Start engine" : phase === "paused" ? "Resume engine" : "Pause engine";
 
   return (
-    <aside className="right-panel">
-      <div className="panel right-panel__section">
-        <span className="right-panel__section-title">Engine instruments</span>
-        <div className="right-panel__gauges-large">
-          <Gauge
-            label="RPM"
-            value={values.n1}
-            min={0}
-            max={13000}
-            valueText={`N1: ${Math.round(values.n1).toLocaleString("en-US")}`}
-            subText={`N2: ${Math.round(values.n2).toLocaleString("en-US")}`}
-            size={140}
-          />
-          <Gauge
-            label="THRUST"
-            value={values.thrust}
-            min={0}
-            max={40000}
-            valueText={`${Math.round(values.thrust).toLocaleString("en-US")} lbf`}
-            size={140}
-          />
+    <aside className="right-panel" aria-label="Engine controls and simulated telemetry">
+      <div className="right-panel__controls">
+        <div className="right-panel__section-heading">
+          <h2>Engine control</h2>
+          <span>01 — 05</span>
         </div>
-        <div className="right-panel__gauges-small">
-          <Gauge
-            label="TIT"
-            value={values.tit}
-            min={0}
-            max={1600}
-            valueText={`${Math.round(values.tit)}°C`}
-            size={100}
-          />
-          <Gauge
-            label="PRESS RATIO"
-            value={values.pressureRatio}
-            min={0}
-            max={35}
-            valueText={`${values.pressureRatio.toFixed(1)}: 1`}
-            size={100}
-          />
-          <Gauge
-            label="FUEL FLOW"
-            value={values.fuelFlow}
-            min={0}
-            max={180}
-            valueText={`${values.fuelFlow.toFixed(1)}`}
-            unit="kg/min"
-            size={100}
-          />
+        <div className="right-panel__actions">
+          <button
+            type="button"
+            className={`engine-button engine-button--primary${phase === "running" ? " is-running" : ""}`}
+            onClick={phase === "stopped" ? start : pause}
+          >
+            <ActionIcon paused={phase !== "running"} />
+            {actionLabel}
+          </button>
+          <button type="button" className="engine-button engine-button--reset" onClick={reset} disabled={phase === "stopped"} aria-label="Reset engine simulation" title="Reset engine simulation">
+            <svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+              <path d="M4 7a6.5 6.5 0 1 1-.3 5M4 3v4h4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <p className="right-panel__control-note">
+          {phase === "stopped" ? "Start a 12-second spool-up." : phase === "paused" ? "Motion and telemetry on hold." : progress < 1 ? "Spooling to steady state…" : "Steady state. Explore the flow."}
+        </p>
+        <div className="right-panel__toggles" aria-label="Scene layers">
+          <button type="button" onClick={toggleCasing} aria-pressed={casingVisible}>
+            <span className="layer-switch" aria-hidden="true" />
+            Casing
+          </button>
+          <button type="button" onClick={toggleAirflow} aria-pressed={airflowVisible}>
+            <span className="layer-switch" aria-hidden="true" />
+            Airflow
+          </button>
         </div>
       </div>
 
-      {history.length === 0 ? (
-        <div className="panel right-panel__standby">
-          <span className="right-panel__standby-index">01</span>
-          <div>
-            <span className="right-panel__section-title">Ready for ignition</span>
-            <h2>Bring the engine to life.</h2>
-            <p>Start the simulation to spool the fan, ignite the combustor, and trace thrust as it builds.</p>
+      <section className="right-panel__telemetry" aria-label="Simulated engine readings">
+        <div className="right-panel__thrust">
+          <div className="right-panel__section-heading">
+            <h2>Simulated thrust</h2>
+            <span className={`right-panel__live right-panel__live--${phase}`}>
+              {phase === "running" ? "Live" : phase === "paused" ? "Hold" : "Idle"}
+            </span>
           </div>
+          <p><strong>{Math.round(values.thrust).toLocaleString("en-US")}</strong><span>lbf</span></p>
         </div>
-      ) : (
-        <>
-          <div className="panel right-panel__section right-panel__section--chart">
-            <TimeSeriesChart
-              title="THRUST vs TIME"
-              series={[
-                {
-                  label: "Thrust (lbf)",
-                  color: "#5cc6e8",
-                  values: history.map((sample) => sample.thrust),
-                  fill: true,
-                },
-              ]}
-              xLabels={xLabels}
-              fillHeight
-            />
-          </div>
 
-          <div className="panel right-panel__section right-panel__section--chart">
-            <TimeSeriesChart
-              title="RPM/TIT vs TIME"
-              series={[
-                { label: "N1 RPM", color: "#f07a4f", values: history.map((sample) => sample.n1) },
-                {
-                  label: "TIT",
-                  color: "#5cc6e8",
-                  values: history.map((sample) => sample.tit),
-                  axis: "right",
-                  fill: true,
-                },
-              ]}
-              xLabels={xLabels}
-              fillHeight
-            />
+        <dl className="engine-metrics">
+          <div className="engine-metrics__spool">
+            <dt><span>N1</span> Fan speed</dt>
+            <dd>{Math.round(values.n1).toLocaleString("en-US")} <span>rpm</span></dd>
+            <span className="engine-metrics__track" aria-hidden="true"><i style={{ width: `${Math.min(100, values.n1 / 130)}%` }} /></span>
           </div>
-        </>
-      )}
-
-      <div className="right-panel__buttons">
-        <Button variant="primary" onClick={start} disabled={phase !== "stopped"}>
-          Start Engine
-        </Button>
-        <Button variant="danger" onClick={pause} disabled={phase === "stopped"}>
-          {phase === "paused" ? "Resume" : "Pause"}
-        </Button>
-        <Button variant="secondary" onClick={toggleCasing}>
-          Casing {casingVisible ? "On" : "Off"}
-        </Button>
-        <Button variant="outline" onClick={toggleAirflow}>
-          Airflow {airflowVisible ? "On" : "Off"}
-        </Button>
-      </div>
+          <div className="engine-metrics__spool">
+            <dt><span>N2</span> Core speed</dt>
+            <dd>{Math.round(values.n2).toLocaleString("en-US")} <span>rpm</span></dd>
+            <span className="engine-metrics__track" aria-hidden="true"><i style={{ width: `${Math.min(100, values.n2 / 130)}%` }} /></span>
+          </div>
+          <div className="engine-metrics__row">
+            <dt>Turbine inlet</dt>
+            <dd>{Math.round(values.tit).toLocaleString("en-US")} <span>°C</span></dd>
+          </div>
+          <div className="engine-metrics__row">
+            <dt>Pressure ratio</dt>
+            <dd>{values.pressureRatio.toFixed(1)} <span>: 1</span></dd>
+          </div>
+          <div className="engine-metrics__row">
+            <dt>Fuel flow</dt>
+            <dd>{values.fuelFlow.toFixed(1)} <span>kg/min</span></dd>
+          </div>
+        </dl>
+        <ThrustTrace history={history} />
+      </section>
+      <p className="right-panel__disclaimer">An illustrative engine. All readings are simulated.</p>
     </aside>
   );
 }

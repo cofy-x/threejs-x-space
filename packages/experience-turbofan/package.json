@@ -10,6 +10,7 @@
     }
   },
   "scripts": {
+    "check:geometry": "node --test scripts/verify-airfoil-geometry.mjs",
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"

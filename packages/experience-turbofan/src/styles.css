@@ -1,36 +1,16 @@
 .turbofan-experience {
   color-scheme: dark;
-  --tf-bg: #090a0c;
-  --tf-panel: #111318;
-  --tf-panel-raised: #171a20;
-  --tf-line: rgba(242, 239, 231, 0.14);
-  --tf-line-strong: rgba(242, 239, 231, 0.28);
-  --tf-cobalt: #4f6fe8;
-  --tf-cyan: #5cc6e8;
-  --tf-orange: #f07a4f;
-  --tf-green: #67c58b;
-  --tf-ink: #f2efe7;
-  --tf-ink-soft: #bbb6ab;
-  --tf-muted: #858179;
-  --ui-primary-bg: #4f6fe8;
-  --ui-primary-border: #6f89ed;
-  --ui-primary-ink: #ffffff;
-  --ui-secondary-bg: rgba(242, 239, 231, 0.07);
-  --ui-secondary-border: rgba(242, 239, 231, 0.22);
-  --ui-secondary-ink: #d1cdc3;
-  --ui-danger-bg: rgba(240, 122, 79, 0.09);
-  --ui-danger-border: rgba(240, 122, 79, 0.48);
-  --ui-danger-ink: #f39a79;
-  --ui-outline-border: rgba(92, 198, 232, 0.5);
-  --ui-outline-ink: #77d0eb;
-  --ui-data-live: #5cc6e8;
-  --ui-data-warning: #e3b65a;
-  --ui-data-danger: #e66b5b;
-  --ui-data-track: #25282e;
-  --ui-data-tick: #3b3e45;
-  --ui-data-ink: #f2efe7;
-  --ui-data-soft: #858179;
-  --ui-data-muted: #a29d93;
+  --tf-bg: #0b1015;
+  --tf-panel: #0f151c;
+  --tf-panel-raised: #151e27;
+  --tf-line: rgba(180, 199, 216, 0.13);
+  --tf-line-strong: rgba(180, 199, 216, 0.28);
+  --tf-cyan: #9ed8e9;
+  --tf-orange: #efa968;
+  --tf-ink: #edf0ef;
+  --tf-ink-soft: #b1bdc6;
+  --tf-muted: #7c8d9b;
+  --tf-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -40,152 +20,174 @@
   background: var(--tf-bg);
   color: var(--tf-ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .turbofan-experience * {
   box-sizing: border-box;
 }
 
+.turbofan-experience button {
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.turbofan-experience button:focus-visible {
+  outline: 2px solid var(--tf-orange);
+  outline-offset: 4px;
+}
+
+.turbofan-experience button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
 .turbofan-experience .app-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
   align-items: center;
-  justify-content: space-between;
-  flex: 0 0 64px;
-  gap: 20px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--tf-line);
-  background: linear-gradient(180deg, #15171c 0%, #0d0f12 100%);
+  flex: 0 0 116px;
+  gap: 24px;
+  padding: 21px 30px 23px;
 }
 
-.turbofan-experience .app-header__brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.turbofan-experience .app-header__brand svg {
-  flex: 0 0 auto;
-}
-
-.turbofan-experience .app-header__brand p {
-  margin: 0 0 3px;
-  color: var(--tf-cyan);
-  font-size: 8px;
-  font-weight: 650;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.turbofan-experience .app-header__brand h1 {
-  overflow: hidden;
-  margin: 0;
-  color: var(--tf-ink);
-  font-size: 17px;
-  font-weight: 620;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.turbofan-experience .app-header__controls {
+.turbofan-experience .app-header__eyebrow {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 0 0 auto;
-}
-
-.turbofan-experience .app-header__status-label {
-  color: var(--tf-muted);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  margin: 0 0 10px;
+  color: var(--tf-orange);
+  font-family: var(--tf-mono);
   font-size: 9px;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
-.turbofan-experience .app-header__pill {
-  padding: 4px 9px;
-  border: 1px solid;
-  border-radius: 999px;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
+.turbofan-experience .app-header__eyebrow span {
+  color: var(--tf-muted);
 }
 
-.turbofan-experience .app-header__pill--optimal {
-  border-color: rgba(103, 197, 139, 0.4);
-  background: rgba(103, 197, 139, 0.1);
-  color: var(--tf-green);
+.turbofan-experience .app-header h1 {
+  margin: 0;
+  font-size: clamp(32px, 3.7vw, 52px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1;
 }
 
-.turbofan-experience .app-header__pill--hold {
-  border-color: rgba(251, 191, 36, 0.38);
-  background: rgba(251, 191, 36, 0.1);
-  color: #f4c85a;
+.turbofan-experience .app-header h1 > span {
+  color: var(--tf-orange);
 }
 
-.turbofan-experience .app-header__pill--standby {
-  border-color: rgba(242, 239, 231, 0.2);
-  background: rgba(242, 239, 231, 0.05);
+.turbofan-experience .app-header__intro {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 21px;
+}
+
+.turbofan-experience .app-header__intro p {
+  max-width: 210px;
+  margin: 0;
   color: var(--tf-ink-soft);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.turbofan-experience .app-header__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 9px;
+  letter-spacing: 0.03em;
+}
+
+.turbofan-experience .app-header__status > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tf-muted);
+}
+
+.turbofan-experience .app-header__status--running > span {
+  background: var(--tf-cyan);
+  box-shadow: 0 0 0 3px rgba(158, 216, 233, 0.08);
+}
+
+.turbofan-experience .app-header__status--paused > span {
+  background: var(--tf-orange);
 }
 
 .turbofan-experience .app-main {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(350px, 400px);
+  grid-template-columns: minmax(0, 1fr) 280px;
   grid-template-rows: minmax(0, 1fr);
   flex: 1;
-  gap: 10px;
+  gap: 24px;
   min-height: 0;
-  padding: 10px;
+  padding: 0 30px 20px;
 }
 
-.turbofan-experience .panel {
+.turbofan-experience .engine-view {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   min-height: 0;
+  overflow: hidden;
   border: 1px solid var(--tf-line);
-  border-radius: 4px;
-  background: var(--tf-panel);
+  background: var(--tf-bg);
 }
 
+.turbofan-experience .engine-view__toolbar,
 .turbofan-experience .panel__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  min-height: 38px;
-  padding: 8px 12px;
+  flex: 0 0 40px;
+  gap: 12px;
+  padding: 0 17px;
   border-bottom: 1px solid var(--tf-line);
-  background: rgba(23, 26, 32, 0.82);
 }
 
 .turbofan-experience .panel__title,
-.turbofan-experience .right-panel__section-title {
-  color: var(--tf-ink-soft);
+.turbofan-experience .engine-view__toolbar > span {
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
   font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.14em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.turbofan-experience .engine-view__stats {
+.turbofan-experience .engine-view__views {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: var(--tf-cyan);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  gap: 4px;
 }
 
-.turbofan-experience .engine-view__stats-divider {
-  width: 1px;
-  height: 12px;
-  background: var(--tf-line);
+.turbofan-experience .engine-view__views button {
+  min-height: 30px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 9px;
+  letter-spacing: 0.01em;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.turbofan-experience .engine-view__views button:hover,
+.turbofan-experience .engine-view__views button[aria-pressed="true"],
+.turbofan-experience .engine-view__views button.is-active {
+  background: rgba(237, 240, 239, 0.07);
+  color: var(--tf-ink);
 }
 
 .turbofan-experience .engine-view__canvas {
@@ -196,38 +198,65 @@
   background: var(--tf-bg);
 }
 
-.turbofan-experience .engine-view__canvas::before {
+.turbofan-experience .engine-view__canvas canvas {
+  display: block;
+}
+
+.turbofan-experience .engine-view__hint {
   position: absolute;
   z-index: 2;
-  inset: 14px;
-  border:
-    1px solid transparent;
-  background:
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) left top / 18px 1px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) left top / 1px 18px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) right top / 18px 1px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) right top / 1px 18px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) left bottom / 18px 1px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) left bottom / 1px 18px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) right bottom / 18px 1px,
-    linear-gradient(var(--tf-line-strong), var(--tf-line-strong)) right bottom / 1px 18px;
-  background-repeat: no-repeat;
-  content: "";
+  right: 17px;
+  bottom: 14px;
+  left: 17px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 8px;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
   pointer-events: none;
+}
+
+.turbofan-experience .engine-view__hint > span {
+  text-align: right;
+}
+
+.turbofan-experience .engine-view__fallback {
+  display: grid;
+  height: 100%;
+  padding: 32px;
+  place-items: center;
+  color: var(--tf-ink-soft);
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.turbofan-experience .engine-view__stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--tf-cyan);
+  font-family: var(--tf-mono);
+  font-size: 9px;
+}
+
+.turbofan-experience .engine-view__stats-divider {
+  width: 1px;
+  height: 10px;
+  background: var(--tf-line);
 }
 
 .turbofan-experience .engine-view__legend {
   position: absolute;
-  z-index: 3;
-  right: 22px;
-  bottom: 20px;
+  z-index: 2;
+  right: 17px;
+  bottom: 14px;
   display: flex;
-  gap: 13px;
-  padding: 8px 12px;
-  border: 1px solid var(--tf-line);
-  border-radius: 3px;
-  background: rgba(9, 10, 12, 0.84);
-  backdrop-filter: blur(8px);
+  gap: 14px;
   pointer-events: none;
 }
 
@@ -236,322 +265,734 @@
   align-items: center;
   gap: 6px;
   color: var(--tf-ink-soft);
-  font-size: 9px;
+  font-family: var(--tf-mono);
+  font-size: 8px;
   white-space: nowrap;
 }
 
 .turbofan-experience .engine-view__legend-item span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 12px;
+  height: 2px;
+}
+
+.turbofan-experience .engine-view__stages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  flex: 0 0 44px;
+  border-top: 1px solid var(--tf-line);
+  border-bottom: 1px solid var(--tf-line);
+}
+
+.turbofan-experience .engine-view__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 8px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--tf-muted);
+  font-size: 10px;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.turbofan-experience .engine-view__stage + .engine-view__stage {
+  border-left: 1px solid var(--tf-line);
+}
+
+.turbofan-experience .engine-view__stage > span:first-child {
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 8px;
+}
+
+.turbofan-experience .engine-view__stage:hover {
+  background: rgba(237, 240, 239, 0.035);
+  color: var(--tf-ink);
+}
+
+.turbofan-experience .engine-view__stage.is-active,
+.turbofan-experience .engine-view__stage[aria-pressed="true"] {
+  border-bottom-color: var(--tf-orange);
+  background: rgba(239, 169, 104, 0.065);
+  color: var(--tf-ink);
+}
+
+.turbofan-experience .engine-view__stage.is-active > span:first-child,
+.turbofan-experience .engine-view__stage[aria-pressed="true"] > span:first-child {
+  color: var(--tf-orange);
+}
+
+.turbofan-experience .engine-view__detail {
+  display: flex;
+  align-items: center;
+  flex: 0 0 64px;
+  gap: 14px;
+  padding: 12px 17px;
+  background: rgba(180, 199, 216, 0.022);
+}
+
+.turbofan-experience .engine-view__detail-index {
+  flex-shrink: 0;
+  color: var(--tf-orange);
+  font-family: var(--tf-mono);
+  font-size: 23px;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+}
+
+.turbofan-experience .engine-view__detail-copy {
+  min-width: 0;
+}
+
+.turbofan-experience .engine-view__detail-copy h2,
+.turbofan-experience .engine-view__detail-copy h3,
+.turbofan-experience .engine-view__detail-copy strong {
+  margin: 0 0 3px;
+  color: var(--tf-ink);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.turbofan-experience .engine-view__detail-copy p {
+  max-width: 640px;
+  margin: 0;
+  color: var(--tf-muted);
+  font-size: 10px;
+  line-height: 1.5;
 }
 
 .turbofan-experience .engine-label {
-  padding: 4px 7px;
-  border-left: 1px solid var(--tf-cyan);
-  background: rgba(9, 10, 12, 0.78);
-  color: var(--tf-ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 5px 8px;
+  border-left: 1px solid var(--tf-orange);
+  background: rgba(11, 16, 21, 0.85);
+  color: var(--tf-ink-soft);
+  font-family: var(--tf-mono);
   font-size: 9px;
-  font-weight: 650;
-  letter-spacing: 0.05em;
-  text-shadow: none;
+  letter-spacing: 0.04em;
   white-space: nowrap;
+  pointer-events: none;
 }
 
 .turbofan-experience .right-panel {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  min-width: 0;
   min-height: 0;
-  overflow: hidden;
+  padding: 3px 0 0 21px;
+  border-left: 1px solid var(--tf-line);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tf-line-strong) transparent;
 }
 
-.turbofan-experience .right-panel__section {
+.turbofan-experience .right-panel__controls,
+.turbofan-experience .right-panel__telemetry {
   flex-shrink: 0;
-  gap: 7px;
-  padding: 10px 12px;
 }
 
-.turbofan-experience .right-panel__section--chart {
-  flex: 1;
-  flex-shrink: 1;
-}
-
-.turbofan-experience .right-panel__gauges-large {
+.turbofan-experience .right-panel__section-heading {
   display: flex;
-  justify-content: space-around;
-}
-
-.turbofan-experience .right-panel__gauges-small {
-  display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding-top: 7px;
-  border-top: 1px solid var(--tf-line);
+  gap: 10px;
 }
 
-.turbofan-experience .right-panel__standby {
-  position: relative;
-  flex: 1;
-  flex-direction: row;
-  gap: 18px;
-  justify-content: flex-end;
-  min-height: 170px;
-  padding: 22px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 90% 20%, rgba(79, 111, 232, 0.16), transparent 42%),
-    linear-gradient(135deg, #171a20, #0f1115);
-}
-
-.turbofan-experience .right-panel__standby::after {
-  position: absolute;
-  right: -32px;
-  bottom: -58px;
-  width: 190px;
-  height: 190px;
-  border: 1px solid rgba(79, 111, 232, 0.24);
-  border-radius: 50%;
-  box-shadow: 0 0 0 22px rgba(79, 111, 232, 0.045), 0 0 0 48px rgba(79, 111, 232, 0.025);
-  content: "";
-}
-
-.turbofan-experience .right-panel__standby-index {
-  color: rgba(111, 137, 237, 0.5);
-  font-family: Georgia, serif;
-  font-size: 54px;
-  font-style: italic;
-  line-height: 0.9;
-}
-
-.turbofan-experience .right-panel__standby h2 {
-  max-width: 240px;
-  margin: 12px 0 8px;
-  color: var(--tf-ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 26px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
-
-.turbofan-experience .right-panel__standby p {
-  position: relative;
-  z-index: 1;
-  max-width: 270px;
+.turbofan-experience .right-panel__section-heading h2,
+.turbofan-experience .right-panel__section-heading h3 {
   margin: 0;
+  color: var(--tf-ink-soft);
+  font-family: var(--tf-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.turbofan-experience .right-panel__section-heading > span {
   color: var(--tf-muted);
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.turbofan-experience .right-panel__buttons {
-  display: grid;
-  grid-template-columns: 1.3fr repeat(3, 1fr);
-  gap: 7px;
-  flex-shrink: 0;
-}
-
-.turbofan-experience .right-panel__buttons button {
-  min-height: 39px;
-  padding: 8px 10px !important;
-  border-radius: 3px !important;
-  font-size: 9px !important;
-  letter-spacing: 0.1em !important;
+  font-family: var(--tf-mono);
+  font-size: 8px;
   white-space: nowrap;
 }
 
-.turbofan-experience .right-panel__buttons button:first-child {
-  font-size: 10px !important;
+.turbofan-experience .right-panel__actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 42px;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.turbofan-experience .engine-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px;
+  border: 1px solid var(--tf-line-strong);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--tf-ink-soft);
+  font-size: 11px;
+  font-weight: 600;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.turbofan-experience .engine-button:hover:not(:disabled) {
+  border-color: var(--tf-orange);
+  color: var(--tf-ink);
+}
+
+.turbofan-experience .engine-button--primary {
+  border-color: var(--tf-orange);
+  background: var(--tf-orange);
+  color: #221a13;
+}
+
+.turbofan-experience .engine-button--primary:hover:not(:disabled) {
+  border-color: #f8bc85;
+  background: #f8bc85;
+  color: #221a13;
+}
+
+.turbofan-experience .engine-button--primary.is-running {
+  border-color: rgba(239, 169, 104, 0.55);
+  background: rgba(239, 169, 104, 0.09);
+  color: var(--tf-orange);
+}
+
+.turbofan-experience .right-panel__control-note {
+  margin: 8px 0 12px;
+  color: var(--tf-muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.turbofan-experience .right-panel__toggles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.turbofan-experience .right-panel__toggles button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid var(--tf-line);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--tf-muted);
+  font-size: 10px;
+}
+
+.turbofan-experience .right-panel__toggles button:hover {
+  border-color: var(--tf-line-strong);
+}
+
+.turbofan-experience .right-panel__toggles button[aria-pressed="true"] {
+  background: rgba(158, 216, 233, 0.035);
+  color: var(--tf-ink-soft);
+}
+
+.turbofan-experience .layer-switch {
+  position: relative;
+  width: 20px;
+  height: 11px;
+  border: 1px solid var(--tf-line-strong);
+  border-radius: 10px;
+}
+
+.turbofan-experience .layer-switch::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--tf-muted);
+  content: "";
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.turbofan-experience [aria-pressed="true"] > .layer-switch::after {
+  transform: translateX(9px);
+  background: var(--tf-cyan);
+}
+
+.turbofan-experience .right-panel__telemetry {
+  padding-top: 17px;
+  border-top: 1px solid var(--tf-line);
+}
+
+.turbofan-experience .right-panel__thrust p {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 7px 0 15px;
+}
+
+.turbofan-experience .right-panel__thrust strong {
+  font-size: 43px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.turbofan-experience .right-panel__thrust p > span {
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 10px;
+}
+
+.turbofan-experience .right-panel__section-heading > .right-panel__live {
+  padding: 2px 5px;
+  border: 1px solid var(--tf-line);
+  border-radius: 2px;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.turbofan-experience .right-panel__section-heading > .right-panel__live--running {
+  border-color: rgba(158, 216, 233, 0.2);
+  color: var(--tf-cyan);
+}
+
+.turbofan-experience .right-panel__section-heading > .right-panel__live--paused {
+  color: var(--tf-orange);
+}
+
+.turbofan-experience .engine-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  margin: 0;
+}
+
+.turbofan-experience .engine-metrics dt {
+  color: var(--tf-muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.turbofan-experience .engine-metrics dt > span {
+  margin-right: 3px;
+  color: var(--tf-ink-soft);
+  font-family: var(--tf-mono);
+}
+
+.turbofan-experience .engine-metrics dd {
+  margin: 3px 0 0;
+  font-family: var(--tf-mono);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+}
+
+.turbofan-experience .engine-metrics dd > span {
+  color: var(--tf-muted);
+  font-size: 8px;
+  letter-spacing: 0;
+}
+
+.turbofan-experience .engine-metrics__track {
+  display: block;
+  height: 2px;
+  margin: 9px 0 3px;
+  overflow: hidden;
+  background: var(--tf-line);
+}
+
+.turbofan-experience .engine-metrics__track i {
+  display: block;
+  height: 100%;
+  background: var(--tf-cyan);
+  opacity: 0.7;
+}
+
+.turbofan-experience .engine-metrics__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+  gap: 12px;
+}
+
+.turbofan-experience .engine-metrics__row dd {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+}
+
+.turbofan-experience .thrust-trace {
+  margin-top: 18px;
+  padding-top: 13px;
+  border-top: 1px solid var(--tf-line);
+}
+
+.turbofan-experience .thrust-trace__plot {
+  display: block;
+  width: 100%;
+  height: 64px;
+  margin-top: 7px;
+  overflow: visible;
+}
+
+.turbofan-experience .thrust-trace__grid {
+  stroke: var(--tf-line);
+  stroke-width: 0.65;
+  stroke-dasharray: 2 4;
+}
+
+.turbofan-experience .thrust-trace__empty {
+  fill: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 8px;
+}
+
+.turbofan-experience .thrust-trace__axis {
+  display: flex;
+  justify-content: space-between;
+  color: var(--tf-muted);
+  font-family: var(--tf-mono);
+  font-size: 7px;
+}
+
+.turbofan-experience .right-panel__disclaimer {
+  margin: auto 0 0;
+  color: var(--tf-muted);
+  font-size: 9px;
+  line-height: 1.55;
 }
 
 .turbofan-experience .footer-bar {
   display: flex;
   align-items: center;
   flex: 0 0 28px;
-  gap: 10px;
-  padding: 5px 14px;
-  overflow: hidden;
+  gap: 24px;
+  padding: 0 30px;
   border-top: 1px solid var(--tf-line);
-  background: #0d0f12;
   color: var(--tf-muted);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--tf-mono);
   font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  letter-spacing: 0.04em;
 }
 
-.turbofan-experience .footer-bar__status {
+.turbofan-experience .footer-bar__time {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
-.turbofan-experience .footer-bar__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+.turbofan-experience .footer-bar strong {
+  color: var(--tf-ink-soft);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
 
-.turbofan-experience .footer-bar__dot--running {
-  background: var(--tf-green);
-  box-shadow: 0 0 7px rgba(103, 197, 139, 0.55);
+.turbofan-experience .footer-bar__credit {
+  margin-left: auto;
 }
 
-.turbofan-experience .footer-bar__dot--paused {
-  background: #fbbf24;
-  box-shadow: 0 0 7px #fbbf24;
+@media (min-width: 960px) and (max-height: 760px) {
+  .turbofan-experience .app-header {
+    flex-basis: 108px;
+    padding-top: 17px;
+    padding-bottom: 19px;
+  }
+
+  .turbofan-experience .right-panel {
+    gap: 15px;
+  }
+
+  .turbofan-experience .right-panel__telemetry {
+    padding-top: 13px;
+  }
+
+  .turbofan-experience .engine-metrics {
+    row-gap: 8px;
+  }
+
+  .turbofan-experience .thrust-trace {
+    margin-top: 13px;
+    padding-top: 10px;
+  }
+
+  .turbofan-experience .thrust-trace__plot {
+    height: 52px;
+  }
 }
 
-.turbofan-experience .footer-bar__dot--stopped {
-  background: #77736d;
-}
-
-.turbofan-experience .footer-bar__divider {
-  color: var(--tf-line-strong);
-}
-
-@media (max-width: 1100px) {
+@media (max-width: 959px) {
   .turbofan-experience {
     overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+
+  .turbofan-experience .app-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    flex-basis: auto;
+    padding: 24px;
+  }
+
+  .turbofan-experience .app-header__intro {
+    padding-left: 0;
+  }
+
+  .turbofan-experience .app-header__intro p {
+    display: none;
   }
 
   .turbofan-experience .app-main {
     display: flex;
     flex: none;
     flex-direction: column;
-    overflow: visible;
+    gap: 24px;
+    padding: 0 24px 24px;
   }
 
-  .turbofan-experience .engine-view {
-    min-height: 62vh;
+  .turbofan-experience .engine-view__canvas {
+    flex: none;
+    height: 400px;
   }
 
-  .turbofan-experience .right-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
-    overflow: visible;
-  }
-
-  .turbofan-experience .right-panel__section:first-child {
-    grid-row: span 2;
-  }
-
-  .turbofan-experience .right-panel__standby {
-    min-height: 210px;
-  }
-
-  .turbofan-experience .right-panel__section--chart {
-    min-height: 210px;
-  }
-
-  .turbofan-experience .right-panel__buttons {
-    grid-column: 1 / -1;
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .turbofan-experience .footer-bar {
-    flex: 0 0 30px;
-    overflow-x: auto;
-  }
-}
-
-@media (max-width: 700px) {
   .turbofan-experience .engine-view__canvas canvas {
     touch-action: pan-y pinch-zoom !important;
   }
 
+  .turbofan-experience .right-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+    gap: 20px 28px;
+    padding: 0;
+    border-left: 0;
+    overflow: visible;
+  }
+
+  .turbofan-experience .right-panel__telemetry {
+    padding: 0 0 0 28px;
+    border-top: 0;
+    border-left: 1px solid var(--tf-line);
+  }
+
+  .turbofan-experience .right-panel__disclaimer {
+    grid-column: 1 / -1;
+  }
+
+  .turbofan-experience .footer-bar {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 600px) {
   .turbofan-experience .app-header {
-    flex-basis: auto;
-    align-items: flex-start;
-    padding: 14px 14px 12px;
+    position: relative;
+    display: block;
+    padding: 24px 18px 21px;
   }
 
-  .turbofan-experience .app-header__brand svg {
-    display: none;
+  .turbofan-experience .app-header__eyebrow {
+    margin-bottom: 11px;
+    font-size: 8px;
+    letter-spacing: 0.11em;
   }
 
-  .turbofan-experience .app-header__brand h1 {
-    font-size: 15px;
+  .turbofan-experience .app-header h1 {
+    font-size: clamp(30px, 8.8vw, 45px);
+    letter-spacing: -0.052em;
   }
 
-  .turbofan-experience .app-header__status-label {
-    display: none;
+  .turbofan-experience .app-header__intro {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .turbofan-experience .app-header__intro p {
+    display: block;
+    max-width: none;
+    color: var(--tf-muted);
+    font-size: 10px;
+  }
+
+  .turbofan-experience .app-header__status {
+    position: absolute;
+    top: 25px;
+    right: 18px;
+    gap: 5px;
+    font-size: 8px;
   }
 
   .turbofan-experience .app-main {
-    gap: 8px;
-    padding: 8px;
+    gap: 24px;
+    padding: 0 12px 25px;
   }
 
-  .turbofan-experience .engine-view {
-    min-height: 64vh;
-  }
-
+  .turbofan-experience .engine-view__toolbar,
   .turbofan-experience .panel__header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
+    flex-basis: 44px;
+    gap: 7px;
+    padding: 0 11px;
+  }
+
+  .turbofan-experience .panel__title,
+  .turbofan-experience .engine-view__toolbar > span {
+    font-size: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .turbofan-experience .engine-view__views {
+    gap: 0;
+  }
+
+  .turbofan-experience .engine-view__views button {
+    min-height: 36px;
+    padding: 0 7px;
+    font-size: 8px;
+  }
+
+  .turbofan-experience .engine-view__canvas {
+    height: 330px;
+  }
+
+  .turbofan-experience .engine-view__hint {
+    right: 11px;
+    bottom: 11px;
+    left: 11px;
+    font-size: 7px;
   }
 
   .turbofan-experience .engine-view__legend {
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
-    gap: 12px;
-    overflow: hidden;
+    right: 11px;
+    bottom: 28px;
+    gap: 10px;
   }
 
-  .turbofan-experience .engine-view__legend-item:nth-child(n + 4) {
+  .turbofan-experience .engine-view__legend-item {
+    font-size: 7px;
+  }
+
+  .turbofan-experience .engine-view__legend-item:nth-child(n + 3) {
     display: none;
+  }
+
+  .turbofan-experience .engine-view__stages {
+    flex-basis: 49px;
+  }
+
+  .turbofan-experience .engine-view__stage {
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 2px;
+    font-size: 8px;
+  }
+
+  .turbofan-experience .engine-view__stage > span:first-child {
+    font-size: 7px;
+  }
+
+  .turbofan-experience .engine-view__detail {
+    align-items: flex-start;
+    flex-basis: 78px;
+    gap: 11px;
+    padding: 12px;
+  }
+
+  .turbofan-experience .engine-view__detail-index {
+    margin-top: 2px;
+    font-size: 21px;
+  }
+
+  .turbofan-experience .engine-view__detail-copy p {
+    font-size: 9px;
+    line-height: 1.55;
   }
 
   .turbofan-experience .right-panel {
     display: flex;
+    gap: 24px;
+    padding: 0 6px;
   }
 
-  .turbofan-experience .right-panel__gauges-large {
-    justify-content: center;
-    gap: 14px;
+  .turbofan-experience .right-panel__section-heading h2,
+  .turbofan-experience .right-panel__section-heading h3 {
+    font-size: 10px;
   }
 
-  .turbofan-experience .right-panel__gauges-small {
-    justify-content: center;
-    gap: 4px;
+  .turbofan-experience .right-panel__actions {
+    grid-template-columns: minmax(0, 1fr) 46px;
+    margin-top: 12px;
   }
 
-  .turbofan-experience .right-panel__standby {
-    min-height: 190px;
+  .turbofan-experience .engine-button {
+    min-height: 46px;
+    font-size: 12px;
   }
 
-  .turbofan-experience .right-panel__section--chart {
-    min-height: 230px;
+  .turbofan-experience .right-panel__control-note {
+    font-size: 11px;
   }
 
-  .turbofan-experience .right-panel__buttons {
-    grid-template-columns: 1fr 1fr;
+  .turbofan-experience .right-panel__toggles button {
+    min-height: 42px;
+    font-size: 11px;
+  }
+
+  .turbofan-experience .right-panel__telemetry {
+    padding: 20px 0 0;
+    border-top: 1px solid var(--tf-line);
+    border-left: 0;
+  }
+
+  .turbofan-experience .right-panel__thrust strong {
+    font-size: 50px;
+  }
+
+  .turbofan-experience .engine-metrics {
+    gap: 12px 24px;
+  }
+
+  .turbofan-experience .engine-metrics dt {
+    font-size: 11px;
+  }
+
+  .turbofan-experience .engine-metrics dd {
+    font-size: 21px;
+  }
+
+  .turbofan-experience .engine-metrics__row dd {
+    font-size: 14px;
+  }
+
+  .turbofan-experience .engine-metrics dd > span {
+    font-size: 9px;
+  }
+
+  .turbofan-experience .thrust-trace__plot {
+    height: 82px;
+  }
+
+  .turbofan-experience .right-panel__disclaimer {
+    font-size: 10px;
   }
 
   .turbofan-experience .footer-bar {
+    justify-content: space-between;
+    flex-basis: 38px;
+    gap: 12px;
+    padding: 0 18px;
+    font-size: 7px;
+  }
+
+  .turbofan-experience .footer-bar__credit {
     display: none;
-  }
-}
-
-@media (max-width: 390px) {
-  .turbofan-experience .right-panel__gauges-large {
-    gap: 0;
-    transform: scale(0.9);
-    transform-origin: center top;
-    margin-bottom: -24px;
-  }
-
-  .turbofan-experience .right-panel__gauges-small {
-    gap: 0;
-    transform: scale(0.9);
-    transform-origin: center top;
-    margin: 0 -14px -22px;
   }
 }
 
@@ -559,8 +1000,8 @@
   .turbofan-experience *,
   .turbofan-experience *::before,
   .turbofan-experience *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
   }
 }

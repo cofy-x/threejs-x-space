@@ -17,7 +17,7 @@ The project uses Three.js, React Three Fiber, React, TypeScript, and Vite in a p
 | [04 — Aster Robotics Lab](https://cofy-x.github.io/threejs-x-space/experiences/robot) | Initialize a field robot, calibrate its systems, and explore its mechanical anatomy in an interactive lab. | [Experience notes](packages/experience-robot/README.md) |
 | [03 — Living Ink](https://cofy-x.github.io/threejs-x-space/experiences/living-ink) | Tap and drag to paint flowing pigment, tune the current, and save the artwork as a PNG. | [Experience notes](packages/experience-living-ink/README.md) |
 | [02 — Orbital Playground](https://cofy-x.github.io/threejs-x-space/experiences/orbital) | Launch a probe, preview its trajectory, and chain gravity assists in a miniature planetary system. | [Asset credits](packages/experience-orbital/ASSET_CREDITS.md) |
-| [01 — Turbofan Airflow Simulator](https://cofy-x.github.io/threejs-x-space/experiences/turbofan) | Inspect a cutaway engine, control its simulation, and follow airflow and live telemetry. | — |
+| [01 — Turbofan Airflow Simulator](https://cofy-x.github.io/threejs-x-space/experiences/turbofan) | Explore a sculpted engine cutaway, switch camera views, and trace airflow with simulated telemetry. | [Experience notes and reproduction prompt](packages/experience-turbofan/README.md) |
 
 Each experience owns its art direction and primary interaction. The portal provides a consistent collection identity, while responsive behavior, accessibility, and frame stability remain shared expectations. See the [experience design guidance](.x/design.md) for the design and review criteria.
 

@@ -11,6 +11,7 @@ import {
 } from "react";
 
 export type SimulationPhase = "stopped" | "running" | "paused";
+export type EngineStage = "fan" | "compressor" | "combustor" | "turbine" | "nozzle";
 
 export interface EngineValues {
   n1: number;
@@ -40,6 +41,9 @@ export type SimulationRuntime = MutableRefObject<SimulationFrame>;
 interface SimulationConfig {
   casingVisible: boolean;
   airflowVisible: boolean;
+  reducedMotion: boolean;
+  focusedStage: EngineStage;
+  setFocusedStage: (stage: EngineStage) => void;
 }
 
 interface SimulationContextValue extends SimulationConfig {
@@ -53,6 +57,7 @@ interface SimulationContextValue extends SimulationConfig {
   toggleRunning: () => void;
   toggleCasing: () => void;
   toggleAirflow: () => void;
+  reset: () => void;
 }
 
 const TARGETS: EngineValues = {
@@ -91,6 +96,10 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
   const [phase, setPhase] = useState<SimulationPhase>("stopped");
   const [casingVisible, setCasingVisible] = useState(true);
   const [airflowVisible, setAirflowVisible] = useState(true);
+  const [focusedStage, setFocusedStage] = useState<EngineStage>("fan");
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [progress, setProgress] = useState(0);
   const [values, setValues] = useState<EngineValues>(() => buildValues(0, 0));
@@ -104,8 +113,16 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
   });
 
   useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReducedMotion(query.matches);
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
     const interval = window.setInterval(() => {
       const frame = frameRef.current;
+      if (frame.phase === "paused" || (frame.phase === "stopped" && frame.progress === 0)) return;
       if (frame.phase === "running") {
         frame.elapsedSeconds += TICK_SECONDS;
         frame.progress = approach(frame.progress, 1, 1 / SPOOL_UP_SECONDS, TICK_SECONDS);
@@ -133,8 +150,8 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const configValue = useMemo<SimulationConfig>(
-    () => ({ casingVisible, airflowVisible }),
-    [casingVisible, airflowVisible],
+    () => ({ casingVisible, airflowVisible, reducedMotion, focusedStage, setFocusedStage }),
+    [casingVisible, airflowVisible, reducedMotion, focusedStage],
   );
 
   const stateValue = useMemo<SimulationContextValue>(
@@ -142,6 +159,9 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
       phase,
       casingVisible,
       airflowVisible,
+      reducedMotion,
+      focusedStage,
+      setFocusedStage,
       elapsedSeconds,
       progress,
       values,
@@ -162,8 +182,17 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
       },
       toggleCasing: () => setCasingVisible((current) => !current),
       toggleAirflow: () => setAirflowVisible((current) => !current),
+      reset: () => {
+        const initialValues = buildValues(0, 0);
+        frameRef.current = { phase: "stopped", progress: 0, elapsedSeconds: 0, values: initialValues };
+        setPhase("stopped");
+        setProgress(0);
+        setElapsedSeconds(0);
+        setValues(initialValues);
+        setHistory([]);
+      },
     }),
-    [phase, casingVisible, airflowVisible, elapsedSeconds, progress, values, history],
+    [phase, casingVisible, airflowVisible, reducedMotion, focusedStage, elapsedSeconds, progress, values, history],
   );
 
   return (

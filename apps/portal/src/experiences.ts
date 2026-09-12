@@ -40,9 +40,9 @@ export const EXPERIENCES: ExperienceMeta[] = [
     title: "Turbofan Airflow Simulator",
     shortTitle: "Turbofan Airflow",
     description:
-      "Open a cutaway jet engine, follow five airflow stages, and watch thrust emerge from a living system of particles, gauges, and telemetry.",
+      "Inspect a sculpted turbofan cutaway, explore five engine stages, and follow cool bypass air and warm core flow through a simulated spool-up.",
     path: "/experiences/turbofan",
-    tags: ["React Three Fiber", "Particles", "Simulation"],
+    tags: ["Procedural Geometry", "Airflow", "Simulation"],
     accent: "#3157d5",
     chromeTheme: "dark",
     runtime: "WebGL / R3F",
