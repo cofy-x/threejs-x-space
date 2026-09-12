@@ -1,0 +1,29 @@
+{
+  "name": "@threejs-x-space/experience-attention-atlas",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "exports": { ".": { "types": "./src/index.tsx", "import": "./src/index.tsx" } },
+  "scripts": {
+    "lint": "eslint src scripts",
+    "typecheck": "tsc --noEmit",
+    "papers:download": "node scripts/download-papers.mjs",
+    "papers:check": "node scripts/download-papers.mjs --check",
+    "test:papers": "node --test scripts/download-papers.test.mjs",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.1.0",
+    "@react-three/fiber": "^9.1.0",
+    "react": "^19.1.0",
+    "three": "^0.177.0"
+  },
+  "devDependencies": {
+    "@threejs-x-space/config-eslint": "workspace:*",
+    "@threejs-x-space/config-typescript": "workspace:*",
+    "@types/react": "^19.1.0",
+    "@types/three": "^0.177.0",
+    "eslint": "^9.29.0",
+    "typescript": "^5.8.0"
+  }
+}

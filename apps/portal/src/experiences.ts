@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { AttentionAtlasPreview } from "./components/attention-atlas-preview";
 import { CourierPreview } from "./components/courier-preview";
 import { LivingInkPreview } from "./components/living-ink-preview";
 import { OrbitalPreview } from "./components/orbital-preview";
@@ -131,6 +132,26 @@ export const EXPERIENCES: ExperienceMeta[] = [
     load: () =>
       import("@threejs-x-space/experience-courier").then((module) => ({
         default: module.CourierExperience,
+      })),
+  },
+  {
+    id: "attention-atlas",
+    number: "06",
+    title: "Attention Atlas",
+    shortTitle: "Attention Atlas",
+    description:
+      "Step inside the Original Transformer and DeepSeek-V4.1-Flash. Unfold each module, follow its animated computation, and compare related mechanisms side by side.",
+    path: "/experiences/attention-atlas",
+    tags: ["AI Architecture", "Interactive 3D", "Visual Learning"],
+    accent: "#387c70",
+    chromeTheme: "dark",
+    runtime: "WebGL / R3F",
+    interaction: "Compare / Inspect / Explore",
+    status: "live",
+    preview: AttentionAtlasPreview,
+    load: () =>
+      import("@threejs-x-space/experience-attention-atlas").then((module) => ({
+        default: module.AttentionAtlasExperience,
       })),
   },
 ];

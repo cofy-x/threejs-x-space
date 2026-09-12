@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-09-12",
+  "papers": [
+    {
+      "id": "transformer",
+      "title": "Attention Is All You Need",
+      "filename": "Attention_Is_All_You_Need.pdf",
+      "sourceUrl": "https://arxiv.org/abs/1706.03762",
+      "downloadUrl": "https://arxiv.org/pdf/1706.03762v7",
+      "revision": "arXiv revision 7; original Transformer architecture",
+      "bytes": 2215244,
+      "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697"
+    },
+    {
+      "id": "deepseek",
+      "title": "DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression",
+      "filename": "DeepSeek_V41_Tech_Report.pdf",
+      "sourceUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+      "downloadUrl": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/DeepSeek_V41_Tech_Report.pdf",
+      "revision": "Hugging Face repository dba1be0a40aa45a94ad051997016db3960a90277",
+      "bytes": 1809802,
+      "sha256": "ba68e2e40408125ae6d2f63a9a241b61c73910691c74ec1a2a7023c851eac08d"
+    }
+  ]
+}
