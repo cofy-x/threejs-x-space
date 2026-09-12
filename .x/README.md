@@ -6,6 +6,7 @@ This directory contains detailed, evolving guidance for maintaining `threejs-x-s
 
 - For an existing experience, read its package README if present and any relevant local documentation before editing.
 - For visual design, interaction design, a new experience, portal presentation, shared UI work, or visual review, read the [experience design guidance](design.md).
+- For Blender modeling, source preservation, procedural asset generation, or runtime model exports, read the [asset authoring guidance](assets.md).
 - For a focused implementation change with no visual or architectural impact, follow `AGENTS.md` and the conventions already present in the target package.
 - For GitHub Pages deployment, use the workflow and base-path requirements documented in the repository README and `AGENTS.md`.
 

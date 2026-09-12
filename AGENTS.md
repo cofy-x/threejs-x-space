@@ -14,6 +14,7 @@
 - Put each new experience in its own `packages/experience-*` package and expose it through `apps/portal`.
 - Keep experience-specific code in its owning package. Promote proven reusable Three.js logic to `packages/three-utils` and themeable interface primitives to `packages/ui`.
 - Follow the [design guidance](.x/design.md) for visual and interactive work, including browser review on desktop and mobile.
+- Follow the [asset authoring guidance](.x/assets.md) when creating, editing, or exporting Blender assets. Keep editable sources, construction notes, any generation scripts, and optimized runtime exports together in the owning experience.
 - Keep every experience compatible with the `/threejs-x-space/` GitHub Pages base path.
 - Add only code and assets that can be distributed from this MIT-licensed public repository. Record third-party licenses and required attribution alongside the owning experience or in a repository-level notice file.
 - Do not commit build output, dependency directories, credentials, or large unoptimized source assets.
