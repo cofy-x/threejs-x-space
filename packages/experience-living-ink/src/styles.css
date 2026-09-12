@@ -1,9 +1,9 @@
 .living-ink-experience {
   --ink-paper: #f3ebdd;
-  --ink-text: #302a25;
-  --ink-muted: #756c62;
-  --ink-line: rgba(68, 55, 44, 0.2);
-  --ink-surface: rgba(250, 246, 237, 0.82);
+  --ink-text: #302c28;
+  --ink-muted: #786e62;
+  --ink-line: rgba(79, 62, 44, 0.18);
+  --ink-surface: rgba(252, 248, 239, 0.9);
   position: relative;
   width: 100%;
   height: 100%;
@@ -14,11 +14,24 @@
   isolation: isolate;
 }
 
+.living-ink-experience::after {
+  position: absolute;
+  z-index: 1;
+  inset: 16px;
+  border: 1px solid rgba(97, 77, 49, 0.12);
+  content: "";
+  pointer-events: none;
+}
+
 .living-ink-artboard {
   position: absolute;
   inset: 0;
   cursor: crosshair;
   touch-action: none;
+}
+
+.living-ink-artboard--paused {
+  cursor: default;
 }
 
 .living-ink-artboard canvas {
@@ -28,170 +41,202 @@
 .living-ink-header {
   position: absolute;
   z-index: 2;
-  top: clamp(24px, 4vw, 56px);
-  left: clamp(20px, 5vw, 72px);
-  max-width: min(460px, calc(100% - 40px));
+  top: clamp(34px, 4.4vw, 62px);
+  left: clamp(34px, 4.6vw, 66px);
+  max-width: calc(100% - 68px);
   pointer-events: none;
 }
 
 .living-ink-kicker {
   margin: 0;
   color: var(--ink-muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.19em;
   text-transform: uppercase;
 }
 
 .living-ink-header h1,
 .living-ink-experience--unsupported h1 {
-  margin: 9px 0 10px;
+  margin: 15px 0 17px;
   font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
-  font-size: clamp(44px, 6.2vw, 84px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 0.9;
+  font-size: clamp(66px, 7vw, 102px);
+  font-weight: 400;
+  letter-spacing: -0.068em;
+  line-height: 0.92;
+}
+
+.living-ink-header h1 em {
+  font-weight: 400;
+}
+
+.living-ink-header h1 > span {
+  color: #ae654a;
 }
 
 .living-ink-header > p:last-child {
-  max-width: 390px;
   margin: 0;
   color: var(--ink-muted);
-  font-size: clamp(13px, 1.2vw, 16px);
-  line-height: 1.55;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  line-height: 1.6;
 }
 
-.living-ink-prompt {
+.living-ink-guide {
   position: absolute;
   z-index: 2;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 15px;
-  border: 1px solid var(--ink-line);
-  border-radius: 999px;
-  background: rgba(250, 246, 237, 0.76);
-  box-shadow: 0 12px 38px rgba(72, 54, 37, 0.08);
-  color: #5d534a;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.04em;
+  top: clamp(36px, 4.4vw, 63px);
+  right: clamp(34px, 4.6vw, 66px);
+  color: var(--ink-muted);
   pointer-events: none;
-  transform: translate(-50%, -50%);
-  transition: 300ms ease;
-  backdrop-filter: blur(12px);
 }
 
-.living-ink-prompt span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #b65349;
-  box-shadow: 0 0 0 5px rgba(182, 83, 73, 0.12);
+.living-ink-edition {
+  display: block;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--ink-line);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
 
-.living-ink-prompt p {
-  margin: 0;
-  white-space: nowrap;
-}
-
-.living-ink-prompt--hidden {
-  visibility: hidden;
-  opacity: 0;
-  transform: translate(-50%, calc(-50% + 8px));
+.living-ink-guide p {
+  margin: 14px 0 0;
+  font-size: 12px;
+  line-height: 1.8;
 }
 
 .living-ink-toolbar {
   position: absolute;
   z-index: 4;
-  right: clamp(18px, 3vw, 44px);
-  bottom: clamp(20px, 3vw, 38px);
-  left: clamp(18px, 3vw, 44px);
+  bottom: 62px;
+  left: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   width: max-content;
-  max-width: calc(100% - clamp(36px, 6vw, 88px));
-  margin-left: auto;
-  padding: 7px;
+  max-width: calc(100% - 68px);
+  padding: 8px 9px;
   border: 1px solid var(--ink-line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--ink-surface);
-  box-shadow: 0 16px 48px rgba(72, 54, 37, 0.12);
-  backdrop-filter: blur(16px);
+  box-shadow: 0 3px 7px rgba(58, 44, 28, 0.025), 0 14px 40px rgba(58, 44, 28, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transform: translateX(-50%);
+  backdrop-filter: blur(18px);
+}
+
+.living-ink-palettes {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding-right: 12px;
+  border-right: 1px solid var(--ink-line);
+}
+
+.living-ink-palette {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 85px;
+  min-height: 51px;
+  padding: 6px 11px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-muted);
+  font: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.living-ink-palette:hover {
+  background: rgba(71, 52, 28, 0.04);
+}
+
+.living-ink-palette[aria-pressed="true"] {
+  border-color: rgba(79, 62, 44, 0.18);
+  background: rgba(96, 70, 34, 0.06);
+  color: var(--ink-text);
+  font-weight: 600;
+}
+
+.living-ink-pigments {
+  display: flex;
+  padding-left: 4px;
+}
+
+.living-ink-pigments i {
+  display: block;
+  width: 15px;
+  height: 15px;
+  margin-left: -4px;
+  border: 1px solid rgba(249, 244, 233, 0.8);
+  border-radius: 50%;
+  box-shadow: inset 0 0 4px rgba(58, 36, 24, 0.08);
+}
+
+.living-ink-tools {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .living-ink-button,
-.living-ink-select,
 .living-ink-tune > summary {
-  min-height: 38px;
-  border: 1px solid transparent;
-  border-radius: 5px;
-  color: var(--ink-text);
-  font: inherit;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.living-ink-button {
-  padding: 0 14px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.living-ink-button:hover,
-.living-ink-button[aria-pressed="true"] {
-  border-color: var(--ink-line);
-  background: rgba(255, 255, 255, 0.42);
-}
-
-.living-ink-button--primary {
-  background: #302a25;
-  color: #fffaf0;
-}
-
-.living-ink-button--primary:hover {
-  border-color: #302a25;
-  background: #433a32;
-}
-
-.living-ink-select {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 8px 0 12px;
-  border-color: var(--ink-line);
-  background: rgba(255, 255, 255, 0.28);
-}
-
-.living-ink-select > span {
-  color: var(--ink-muted);
-}
-
-.living-ink-select select {
-  max-width: 110px;
-  border: 0;
-  outline: 0;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
   color: var(--ink-text);
   font: inherit;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
 }
 
-.living-ink-tune {
-  position: relative;
+.living-ink-button svg,
+.living-ink-tune > summary svg {
+  flex: 0 0 auto;
+}
+
+.living-ink-button:hover,
+.living-ink-button[aria-pressed="true"],
+.living-ink-tune > summary:hover,
+.living-ink-tune[open] > summary {
+  border-color: var(--ink-line);
+  background: rgba(88, 65, 35, 0.05);
+}
+
+.living-ink-button--primary {
+  margin-left: 5px;
+  padding: 0 17px;
+  background: #353d37;
+  color: #fffaf0;
+}
+
+.living-ink-button--primary:hover {
+  border-color: #353d37;
+  background: #485247;
+}
+
+.living-ink-button--primary:disabled {
+  cursor: progress;
+  opacity: 0.65;
 }
 
 .living-ink-tune > summary {
-  display: flex;
-  align-items: center;
-  padding: 0 13px;
-  cursor: pointer;
   list-style: none;
 }
 
@@ -199,52 +244,133 @@
   display: none;
 }
 
-.living-ink-tune[open] > summary {
-  border-color: var(--ink-line);
-  background: rgba(255, 255, 255, 0.42);
-}
-
-.living-ink-tune > div {
+.living-ink-tune-panel {
   position: absolute;
   right: 0;
-  bottom: calc(100% + 14px);
+  bottom: calc(100% + 12px);
   display: grid;
-  gap: 14px;
-  width: 250px;
-  padding: 16px;
+  gap: 20px;
+  width: 290px;
+  padding: 24px;
   border: 1px solid var(--ink-line);
-  border-radius: 8px;
-  background: rgba(250, 246, 237, 0.96);
-  box-shadow: 0 18px 50px rgba(72, 54, 37, 0.14);
+  border-radius: 10px;
+  background: #fbf7ee;
+  box-shadow: 0 14px 45px rgba(60, 45, 25, 0.12);
+}
+
+.living-ink-tune-heading {
+  margin: 0 0 1px;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 23px;
+  letter-spacing: -0.03em;
 }
 
 .living-ink-tune label {
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  color: var(--ink-text);
+  font-size: 11px;
+}
+
+.living-ink-tune label > span {
+  display: flex;
+  justify-content: space-between;
+}
+
+.living-ink-tune output {
   color: var(--ink-muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 .living-ink-tune input {
   width: 100%;
-  accent-color: #b65349;
+  margin: 0;
+  accent-color: #6c7865;
+  cursor: pointer;
+}
+
+.living-ink-add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid var(--ink-line);
+  border-radius: 5px;
+  background: rgba(106, 122, 94, 0.06);
+  color: var(--ink-text);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.living-ink-add:hover {
+  background: rgba(106, 122, 94, 0.12);
+}
+
+.living-ink-add span {
+  font-size: 19px;
+}
+
+.living-ink-tune-note {
+  margin: -11px 0 0;
+  color: var(--ink-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.living-ink-experience :is(button, summary, input):focus-visible {
+  outline: 2px solid #715841;
+  outline-offset: 3px;
+}
+
+.living-ink-footer {
+  position: absolute;
+  z-index: 2;
+  right: clamp(34px, 4.6vw, 66px);
+  bottom: 31px;
+  left: clamp(34px, 4.6vw, 66px);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  color: var(--ink-muted);
+  font-size: 10px;
+  pointer-events: none;
 }
 
 .living-ink-status {
-  position: absolute;
-  z-index: 2;
-  bottom: clamp(28px, 3.8vw, 48px);
-  left: clamp(20px, 5vw, 72px);
   margin: 0;
-  color: var(--ink-muted);
-  font-size: 10px;
-  font-weight: 650;
-  letter-spacing: 0.07em;
-  pointer-events: none;
+  text-align: center;
+  letter-spacing: 0.025em;
+}
+
+.living-ink-flow-state {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
+}
+
+.living-ink-flow-state i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7b8c69;
+}
+
+.living-ink-flow-state i.is-paused {
+  background: #a78352;
+}
+
+.living-ink-paper-note {
+  justify-self: end;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+  font-size: 11px;
+  font-style: italic;
 }
 
 .living-ink-experience--unsupported {
@@ -273,71 +399,158 @@
   cursor: pointer;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
+  .living-ink-experience::after {
+    inset: 11px;
+  }
+
   .living-ink-header {
-    top: 20px;
+    top: 32px;
+    left: 27px;
   }
 
   .living-ink-header h1 {
-    font-size: clamp(42px, 15vw, 62px);
+    margin: 14px 0 12px;
+    font-size: clamp(57px, 12vw, 78px);
   }
 
   .living-ink-header > p:last-child {
-    max-width: 310px;
-    font-size: 13px;
+    font-size: 12px;
   }
 
-  .living-ink-prompt {
-    top: 52%;
+  .living-ink-guide {
+    top: 186px;
+    right: auto;
+    left: 29px;
+  }
+
+  .living-ink-edition {
+    display: none;
+  }
+
+  .living-ink-guide p {
+    margin: 0;
     font-size: 10px;
+    line-height: 1.7;
+  }
+
+  .living-ink-guide br {
+    display: none;
   }
 
   .living-ink-toolbar {
-    right: 12px;
-    bottom: 14px;
-    left: 12px;
+    right: 22px;
+    bottom: 55px;
+    left: 22px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 7px;
     width: auto;
-    max-width: none;
-    margin: 0;
-    padding: 6px;
+    max-width: 430px;
+    margin: 0 auto;
+    padding: 8px;
+    transform: none;
+  }
+
+  .living-ink-palettes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0 0 7px;
+    border-right: 0;
+    border-bottom: 1px solid var(--ink-line);
+  }
+
+  .living-ink-palette {
+    flex-direction: row;
+    gap: 7px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 5px;
+    font-size: 10px;
+  }
+
+  .living-ink-pigments i {
+    width: 13px;
+    height: 13px;
+  }
+
+  .living-ink-tools {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr 0.85fr 1.3fr;
+    gap: 2px;
   }
 
   .living-ink-button,
   .living-ink-tune > summary {
-    justify-content: center;
+    gap: 5px;
     min-width: 0;
-    padding: 0 8px;
-  }
-
-  .living-ink-select {
-    grid-column: span 2;
-    justify-content: center;
+    padding: 0 4px;
+    font-size: 10px;
   }
 
   .living-ink-button--primary {
-    grid-column: span 2;
+    margin-left: 2px;
   }
 
-  .living-ink-tune {
-    grid-column: span 2;
+  .living-ink-tune-panel {
+    right: 0;
+    width: min(290px, 100%);
+    padding: 22px;
   }
 
-  .living-ink-tune > div {
-    right: auto;
-    left: 0;
-    width: min(250px, calc(100vw - 36px));
+  .living-ink-footer {
+    right: 24px;
+    bottom: 28px;
+    left: 24px;
+    display: block;
+    font-size: 10px;
+    line-height: 1.5;
   }
 
-  .living-ink-status {
-    bottom: 116px;
-    left: 20px;
+  .living-ink-flow-state,
+  .living-ink-paper-note {
+    display: none;
+  }
+}
+
+@media (max-width: 359px) {
+  .living-ink-toolbar {
+    right: 16px;
+    left: 16px;
+  }
+
+  .living-ink-palette {
+    gap: 5px;
+    font-size: 9px;
+  }
+
+  .living-ink-button svg,
+  .living-ink-tune > summary svg {
+    width: 13px;
+  }
+}
+
+@media (max-height: 590px) and (min-width: 801px) {
+  .living-ink-header {
+    top: 30px;
+  }
+
+  .living-ink-header h1 {
+    font-size: 66px;
+  }
+
+  .living-ink-toolbar {
+    bottom: 49px;
+  }
+
+  .living-ink-footer {
+    bottom: 24px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .living-ink-prompt {
+  .living-ink-button,
+  .living-ink-palette,
+  .living-ink-tune > summary {
     transition: none;
   }
 }
