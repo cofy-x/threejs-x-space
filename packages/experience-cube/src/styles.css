@@ -1,0 +1,892 @@
+.octo {
+  --octo-amber: #eab591;
+  --octo-muted: #99acb5;
+  --octo-line: #ffffff13;
+  background: #081b29;
+  color: #edede5;
+  display: flex;
+  flex-direction: column;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  overflow: auto;
+  min-height: 0;
+  color-scheme: dark;
+}
+.octo * {
+  box-sizing: border-box;
+}
+.octo button {
+  font: inherit;
+  cursor: pointer;
+}
+.octo button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.octo button:focus-visible,
+.octo input:focus-visible,
+.octo summary:focus-visible {
+  outline: 2px solid var(--octo-amber);
+  outline-offset: 4px;
+}
+.octo button svg {
+  width: 18px;
+  height: 18px;
+}
+.octo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 36px;
+  border-bottom: 1px solid var(--octo-line);
+  flex-shrink: 0;
+}
+.octo-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.octo-mark {
+  display: grid;
+  place-items: center;
+  border: 1px solid #e7ae725c;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  color: var(--octo-amber);
+  font:
+    italic 34px Georgia,
+    serif;
+  padding-bottom: 5px;
+}
+.octo-wordmark h1 {
+  font-size: 23px;
+  letter-spacing: -1px;
+  font-weight: 550;
+  margin: 0 0 6px;
+}
+.octo-wordmark h1 > span {
+  font-size: 9px;
+  vertical-align: super;
+  margin-left: 4px;
+  color: var(--octo-amber);
+}
+.octo-wordmark p {
+  font-size: 8px;
+  letter-spacing: 2.1px;
+  margin: 0;
+  color: var(--octo-muted);
+}
+.octo-header-right {
+  display: flex;
+  align-items: center;
+  gap: 27px;
+}
+.octo-edition {
+  font:
+    9px ui-monospace,
+    monospace;
+  letter-spacing: 1.6px;
+  color: var(--octo-muted);
+}
+.octo-edition b {
+  margin-left: 20px;
+  color: var(--octo-amber);
+  font-weight: 400;
+}
+.octo-icon {
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: #b9bdb5;
+}
+.octo-icon:hover {
+  border-color: #ffffff26;
+  color: #fff;
+}
+.octo-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  min-height: 520px;
+}
+.octo-stage {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+.octo-canvas {
+  position: absolute;
+  inset: 0;
+}
+.octo-canvas canvas {
+  touch-action: pan-y !important;
+}
+.octo-stage-copy {
+  position: absolute;
+  left: 36px;
+  top: 30px;
+  z-index: 1;
+  pointer-events: none;
+}
+.octo-eyebrow {
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1.7px;
+  color: var(--octo-muted);
+  margin: 0;
+}
+.octo-stage-copy > .octo-eyebrow {
+  color: var(--octo-amber);
+  font-size: 8px;
+  letter-spacing: 1.2px;
+}
+.octo-stage-copy h2 {
+  font-size: clamp(30px, 3.2vw, 50px);
+  font-weight: 400;
+  letter-spacing: -2px;
+  line-height: 1.02;
+  margin: 18px 0;
+}
+.octo-stage-copy h2 em {
+  font-family: Georgia, serif;
+  color: #d6c9b6;
+  font-weight: 400;
+}
+.octo-stage-copy > p:last-child {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #a8aaa2;
+  margin: 0;
+}
+.octo-stage-caption {
+  position: absolute;
+  top: 31px;
+  right: 26px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font:
+    7px ui-monospace,
+    monospace;
+  letter-spacing: 1.3px;
+  color: #c0c3b8;
+}
+.octo-dot {
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background: var(--octo-amber);
+}
+.octo-dot.is-live {
+  background: #83c5a3;
+  box-shadow: 0 0 9px #83c5a355;
+}
+.octo-view-tools {
+  position: absolute;
+  left: 32px;
+  bottom: 29px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.octo-view-tools > span {
+  font-size: 9px;
+  color: #a7a9a1;
+  margin-left: 4px;
+}
+.octo-segment {
+  padding: 3px;
+  display: flex;
+  border: 1px solid #ffffff1a;
+  border-radius: 7px;
+  background: #0c2534b8;
+  backdrop-filter: blur(10px);
+}
+.octo-segment button {
+  border: 0;
+  background: none;
+  color: #b0b3aa;
+  padding: 8px 13px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+.octo-segment button[aria-pressed="true"] {
+  background: #d2d4c816;
+  color: #eee9df;
+}
+.octo-specimen {
+  position: absolute;
+  bottom: 33px;
+  right: 28px;
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1.5px;
+  color: #dad9cc;
+  text-align: right;
+}
+.octo-specimen span {
+  display: block;
+  font-size: 6px;
+  letter-spacing: 1.2px;
+  color: #9b9f96;
+  margin-top: 8px;
+}
+.octo-panel {
+  padding: 28px 24px 20px;
+  border-left: 1px solid var(--octo-line);
+  background: linear-gradient(130deg, #112c3a, #0e2432);
+  overflow: auto;
+}
+.octo-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.octo-chip {
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 0.7px;
+  padding: 5px 7px;
+  border: 1px solid #ffffff1c;
+  border-radius: 4px;
+  color: #c8c9bc;
+}
+.octo-panel h2 {
+  font-size: 22px;
+  letter-spacing: -0.8px;
+  font-weight: 450;
+  margin: 23px 0 10px;
+}
+.octo-panel-intro {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #a9aca3;
+  margin: 0;
+}
+.octo-cube-state {
+  padding: 23px 0 20px;
+  border-bottom: 1px solid var(--octo-line);
+  text-align: center;
+}
+.octo-net {
+  display: block;
+  width: 169px;
+  height: 128px;
+  margin: 0 auto 8px;
+}
+.octo-cube-state > div > span {
+  display: block;
+  font:
+    7px ui-monospace,
+    monospace;
+  letter-spacing: 1.5px;
+  color: #959b8f;
+  margin: 7px;
+}
+.octo-cube-state b {
+  font-weight: 400;
+  font-size: 10px;
+  color: #d3d6c8;
+}
+.octo-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 21px 0;
+}
+.octo-current p {
+  font-size: 10px;
+  margin: 8px 0 0;
+  color: #d0d3c9;
+  max-width: 160px;
+  line-height: 1.5;
+}
+.octo-current > strong {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  background: #e7ae7210;
+  border: 1px solid #e7ae7230;
+  border-radius: 7px;
+  font:
+    23px Georgia,
+    serif;
+  color: var(--octo-amber);
+}
+.octo-move-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+}
+.octo-move-heading > span:last-child {
+  font:
+    11px ui-monospace,
+    monospace;
+  color: var(--octo-amber);
+}
+.octo-move-heading i {
+  font-style: normal;
+  color: #8e9688;
+}
+.octo-moves {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 4px;
+  margin-bottom: 23px;
+}
+.octo-moves button {
+  padding: 7px 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #ffffff06;
+  color: #aaafa1;
+  font:
+    10px ui-monospace,
+    monospace;
+}
+.octo-moves button[aria-current="step"] {
+  border-color: var(--octo-amber);
+  color: var(--octo-amber);
+  background: #e7ae720a;
+}
+.octo-moves button.is-done {
+  color: #91b79f;
+  background: #91b79f09;
+}
+.octo-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 43px;
+  width: 100%;
+  border: 1px solid #f1c597;
+  border-radius: 6px;
+  background: #eab591;
+  color: #322922;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+.octo-primary > span {
+  margin-left: auto;
+  font-size: 17px;
+  font-weight: 400;
+}
+.octo-primary svg {
+  margin-left: 6px;
+  width: 14px !important;
+}
+.octo-primary:hover {
+  background: #f1c08c;
+}
+.octo-primary > span {
+  margin-right: 7px;
+}
+.octo-shuffle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: #bcc1b4;
+  font-size: 10px !important;
+  padding: 14px 0;
+}
+.octo-shuffle svg {
+  width: 12px !important;
+}
+.octo-about {
+  margin-top: 8px;
+  border-top: 1px solid var(--octo-line);
+  padding-top: 14px;
+}
+.octo-about summary {
+  cursor: pointer;
+  font-size: 9px;
+  color: #9aa38f;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+.octo-about summary::-webkit-details-marker {
+  display: none;
+}
+.octo-about summary span {
+  font-size: 14px;
+}
+.octo-about p {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #adb5a4;
+}
+.octo-about button {
+  background: transparent;
+  color: var(--octo-amber);
+  font-size: 10px;
+  border: 1px solid #e7ae7240;
+  border-radius: 4px;
+  padding: 8px;
+}
+.octo-transport {
+  border-top: 1px solid var(--octo-line);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 31px;
+  background: #0c2130;
+  flex-shrink: 0;
+}
+.octo-transport-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.octo-transport-play {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  background: #c4dfde;
+  border: 0;
+  border-radius: 50%;
+  color: #292c24;
+  margin: 0 5px;
+}
+.octo-transport-play svg {
+  width: 13px !important;
+}
+.octo-transport .octo-icon {
+  width: 27px;
+  height: 30px;
+  padding: 5px;
+}
+.octo-transport .octo-icon svg {
+  width: 15px;
+}
+.octo-time {
+  font:
+    10px ui-monospace,
+    monospace;
+  white-space: nowrap;
+  color: #d2d6c9;
+}
+.octo-time i {
+  font-style: normal;
+  color: #8c9583;
+}
+.octo-transport input {
+  min-width: 50px;
+  flex: 1;
+  height: 3px;
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    var(--octo-amber) var(--progress),
+    #464c40 var(--progress)
+  );
+  cursor: pointer;
+  border: 0;
+  outline-offset: 8px;
+}
+.octo-transport input::-webkit-slider-thumb {
+  appearance: none;
+  background: #e7ae72;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px #e7ae7218;
+}
+.octo-transport input::-moz-range-thumb {
+  background: #e7ae72;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+}
+.octo-speeds {
+  display: flex;
+  gap: 2px;
+}
+.octo-speeds button {
+  font-size: 10px;
+  background: none;
+  border: 1px solid transparent;
+  color: #a4ad9b;
+  padding: 6px 9px;
+  border-radius: 4px;
+}
+.octo-speeds button[aria-pressed="true"] {
+  border-color: #ffffff14;
+  color: #eee8d8;
+  background: #ffffff07;
+}
+.octo-render-label {
+  font:
+    7px ui-monospace,
+    monospace;
+  letter-spacing: 1px;
+  color: #8c9583;
+  white-space: nowrap;
+}
+.octo-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  background: #081b29;
+  color: var(--octo-amber);
+  font-size: 13px;
+  z-index: 4;
+}
+.octo-loading i {
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--octo-amber);
+  transform: rotate(45deg);
+}
+.octo-announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+@media (min-width: 1500px) {
+  .octo-main {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .octo-panel {
+    padding: 34px 30px;
+  }
+  .octo-stage-copy {
+    left: 48px;
+    top: 40px;
+  }
+  .octo-header {
+    padding: 26px 48px;
+  }
+  .octo-panel h2 {
+    font-size: 25px;
+  }
+  .octo-net {
+    width: 191px;
+    height: 145px;
+  }
+  .octo-cube-state {
+    padding: 27px 0;
+  }
+  .octo-current {
+    padding: 26px 0;
+  }
+  .octo-moves {
+    margin-bottom: 28px;
+  }
+  .octo-primary {
+    min-height: 47px;
+  }
+}
+@media (max-width: 1050px) {
+  .octo-main {
+    grid-template-columns: minmax(0, 1fr) 272px;
+  }
+  .octo-panel {
+    padding: 24px 18px 18px;
+  }
+  .octo-stage-copy {
+    left: 25px;
+  }
+  .octo-stage-copy h2 {
+    font-size: 33px;
+  }
+  .octo-stage-caption {
+    display: none;
+  }
+  .octo-specimen {
+    display: none;
+  }
+  .octo-header {
+    padding: 20px 25px;
+  }
+  .octo-transport {
+    gap: 13px;
+    padding: 15px 23px;
+  }
+  .octo-render-label {
+    display: none;
+  }
+  .octo-view-tools {
+    left: 24px;
+  }
+  .octo-view-tools > span {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .octo {
+    display: block;
+    overflow: auto;
+  }
+  .octo-header {
+    padding: 17px 20px;
+  }
+  .octo-wordmark {
+    gap: 10px;
+  }
+  .octo-mark {
+    width: 37px;
+    height: 37px;
+    font-size: 29px;
+  }
+  .octo-wordmark h1 {
+    font-size: 20px;
+  }
+  .octo-wordmark p {
+    font-size: 6px;
+    letter-spacing: 1.6px;
+  }
+  .octo-header-right {
+    gap: 0;
+  }
+  .octo-edition {
+    display: none;
+  }
+  .octo-main {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .octo-stage {
+    height: 550px;
+    min-height: 550px;
+    flex-shrink: 0;
+  }
+  .octo-stage-copy {
+    left: 22px;
+    top: 25px;
+  }
+  .octo-stage-copy > .octo-eyebrow {
+    font-size: 6px;
+    letter-spacing: 1px;
+  }
+  .octo-stage-copy h2 {
+    font-size: 34px;
+    letter-spacing: -1.5px;
+    margin: 14px 0 10px;
+  }
+  .octo-stage-copy > p:last-child {
+    font-size: 9px;
+    line-height: 1.7;
+  }
+  .octo-canvas {
+    top: 70px;
+    bottom: 28px;
+  }
+  .octo-view-tools {
+    left: 20px;
+    bottom: 15px;
+  }
+  .octo-view-tools > span {
+    display: block;
+    font-size: 8px;
+  }
+  .octo-segment button {
+    min-height: 35px;
+    font-size: 10px;
+  }
+  .octo-panel {
+    border-left: 0;
+    border-top: 1px solid var(--octo-line);
+    overflow: visible;
+    padding: 25px 23px;
+  }
+  .octo-panel h2 {
+    margin-top: 17px;
+    font-size: 24px;
+  }
+  .octo-panel-intro {
+    font-size: 12px;
+  }
+  .octo-panel-top .octo-eyebrow {
+    font-size: 8px;
+  }
+  .octo-cube-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 18px 0;
+  }
+  .octo-net {
+    width: 156px;
+    height: 115px;
+    margin: 0;
+  }
+  .octo-cube-state > div {
+    text-align: left;
+  }
+  .octo-cube-state > div > span {
+    margin: 0 0 9px;
+    font-size: 6px;
+  }
+  .octo-cube-state b {
+    font-size: 10px;
+  }
+  .octo-current {
+    padding: 22px 0;
+  }
+  .octo-current p {
+    max-width: none;
+    font-size: 11px;
+  }
+  .octo-eyebrow {
+    font-size: 8px;
+  }
+  .octo-moves {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .octo-moves button {
+    min-height: 34px;
+    font-size: 11px;
+  }
+  .octo-primary {
+    min-height: 48px;
+    font-size: 12px !important;
+  }
+  .octo-shuffle {
+    padding: 18px 0;
+    font-size: 11px !important;
+  }
+  .octo-about summary {
+    font-size: 10px;
+    padding: 3px 0;
+  }
+  .octo-about p {
+    font-size: 11px;
+  }
+  .octo-transport {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 13px 8px;
+    padding: 13px 18px;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    box-shadow: 0 -8px 25px #10130e70;
+  }
+  .octo-transport-buttons {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .octo-time {
+    grid-column: 2;
+    text-align: center;
+    font-size: 9px;
+  }
+  .octo-speeds {
+    grid-column: 3;
+    gap: 0;
+  }
+  .octo-speeds button {
+    padding: 8px 6px;
+  }
+  .octo-transport input {
+    grid-row: 2;
+    grid-column: 1/-1;
+    width: 100%;
+    height: 4px;
+    margin: 4px 0 9px;
+  }
+  .octo-transport .octo-icon {
+    width: 25px;
+    height: 35px;
+  }
+  .octo-transport-play {
+    width: 33px;
+    height: 33px;
+    margin: 0 3px;
+  }
+  .octo-render-label {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .octo * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.octo-about button + button {
+  margin: 8px 0 0 8px;
+}
+
+@media (min-width: 701px) and (max-height: 800px) {
+  .octo-header {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+  .octo-main {
+    min-height: 465px;
+  }
+  .octo-panel {
+    padding: 18px 22px;
+  }
+  .octo-panel h2 {
+    margin: 14px 0 6px;
+    font-size: 20px;
+  }
+  .octo-panel-intro {
+    font-size: 10px;
+    line-height: 1.65;
+  }
+  .octo-cube-state {
+    padding: 12px 0;
+  }
+  .octo-net {
+    width: 133px;
+    height: 99px;
+    margin-bottom: 3px;
+  }
+  .octo-current {
+    padding: 13px 0;
+  }
+  .octo-move-heading {
+    margin-bottom: 9px;
+  }
+  .octo-moves {
+    margin-bottom: 13px;
+  }
+  .octo-moves button {
+    padding: 6px 0;
+  }
+  .octo-shuffle {
+    padding: 11px 0;
+  }
+  .octo-about {
+    padding-top: 9px;
+    margin-top: 0;
+  }
+  .octo-transport {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}

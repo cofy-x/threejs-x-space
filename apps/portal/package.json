@@ -14,6 +14,7 @@
   "dependencies": {
     "@threejs-x-space/experience-attention-atlas": "workspace:*",
     "@threejs-x-space/experience-courier": "workspace:*",
+    "@threejs-x-space/experience-cube": "workspace:*",
     "@threejs-x-space/experience-living-ink": "workspace:*",
     "@threejs-x-space/experience-orbital": "workspace:*",
     "@threejs-x-space/experience-robot": "workspace:*",

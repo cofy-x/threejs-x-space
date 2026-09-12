@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { AttentionAtlasPreview } from "./components/attention-atlas-preview";
 import { CourierPreview } from "./components/courier-preview";
+import { CubePreview } from "./components/cube-preview";
 import { LivingInkPreview } from "./components/living-ink-preview";
 import { OrbitalPreview } from "./components/orbital-preview";
 import { RobotPreview } from "./components/robot-preview";
@@ -152,6 +153,26 @@ export const EXPERIENCES: ExperienceMeta[] = [
     load: () =>
       import("@threejs-x-space/experience-attention-atlas").then((module) => ({
         default: module.AttentionAtlasExperience,
+      })),
+  },
+  {
+    id: "cube",
+    number: "07",
+    title: "Octo's Cube",
+    shortTitle: "Octo's Cube",
+    description:
+      "Eight arms. One obsession. Meet a curious octopus, watch its tentacles work a colorful cube, and explore every turn in an underwater studio.",
+    path: "/experiences/cube",
+    tags: ["Blender", "Character Animation", "Rubik's Cube"],
+    accent: "#79b9b2",
+    chromeTheme: "dark",
+    runtime: "WebGL / R3F",
+    interaction: "Watch / Scramble / Explore",
+    status: "live",
+    preview: CubePreview,
+    load: () =>
+      import("@threejs-x-space/experience-cube").then((module) => ({
+        default: module.CubeExperience,
       })),
   },
 ];
