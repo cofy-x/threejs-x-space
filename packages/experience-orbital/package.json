@@ -12,7 +12,8 @@
   "scripts": {
     "lint": "eslint src",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "verify:flight": "node --experimental-strip-types scripts/verify-flight.ts"
   },
   "dependencies": {
     "@react-three/drei": "^10.1.0",

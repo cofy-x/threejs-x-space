@@ -1,0 +1,3 @@
+# Keep one canonical editable source; omit Blender backups and comparison outputs.
+*.blend[0-9]*
+.review/

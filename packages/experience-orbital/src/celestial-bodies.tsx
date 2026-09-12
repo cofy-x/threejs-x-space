@@ -1,4 +1,4 @@
-import { useTexture } from "@react-three/drei";
+import { Billboard, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -10,24 +10,28 @@ const EARTH_NIGHT_URL = new URL("./assets/earth-night-lights.jpg", import.meta.u
 const SUN_SURFACE_URL = new URL("./assets/sun-sdo-surface.jpg", import.meta.url).href;
 const MARS_SURFACE_URL = new URL("./assets/mars-viking.jpg", import.meta.url).href;
 
-const SUN_VERTEX_SHADER = `
-  varying vec3 vPosition;
-  varying vec3 vNormal;
+const SURFACE_VERTEX_SHADER = `
   varying vec2 vUv;
+  varying vec3 vPosition;
+  varying vec3 vWorldNormal;
+  varying vec3 vWorldPosition;
   void main() {
-    vPosition = position;
-    vNormal = normalize(normalMatrix * normal);
     vUv = uv;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    vPosition = position;
+    vWorldNormal = normalize(mat3(modelMatrix) * normal);
+    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+    vWorldPosition = worldPosition.xyz;
+    gl_Position = projectionMatrix * viewMatrix * worldPosition;
   }
 `;
 
 const SUN_FRAGMENT_SHADER = `
   uniform float uTime;
   uniform sampler2D uSurfaceMap;
-  varying vec3 vPosition;
-  varying vec3 vNormal;
   varying vec2 vUv;
+  varying vec3 vPosition;
+  varying vec3 vWorldNormal;
+  varying vec3 vWorldPosition;
   float hash(vec3 point) {
     return fract(sin(dot(point, vec3(127.1, 311.7, 74.7))) * 43758.5453);
   }
@@ -44,43 +48,75 @@ const SUN_FRAGMENT_SHADER = `
     );
   }
   void main() {
-    vec3 observation = texture2D(uSurfaceMap, fract(vUv + vec2(uTime * 0.0015, 0.0))).rgb;
+    vec3 normal = normalize(vWorldNormal);
+    vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
+    float facing = max(dot(normal, viewDirection), 0.0);
+    vec3 observation = texture2D(uSurfaceMap, vUv + vec2(uTime * 0.0008, 0.0)).rgb;
     float photosphere = dot(observation, vec3(0.2126, 0.7152, 0.0722));
-    float cells = sin(vPosition.x * 8.0 + uTime * 0.8)
-      * sin(vPosition.y * 10.0 - uTime * 0.55)
-      * sin(vPosition.z * 9.0 + uTime * 0.35);
-    float filaments = sin((vPosition.x + vPosition.y) * 17.0 - uTime * 1.4) * 0.5 + 0.5;
-    float rim = pow(1.0 - abs(vNormal.z), 2.0);
-    float sourceContrast = smoothstep(0.08, 0.62, photosphere);
-    float sunspot = 1.0 - smoothstep(0.055, 0.24, photosphere);
-    float regionA = exp(-dot(vUv - vec2(0.58, 0.43), vUv - vec2(0.58, 0.43)) * 180.0);
-    float regionB = exp(-dot(vUv - vec2(0.31, 0.62), vUv - vec2(0.31, 0.62)) * 260.0);
-    float activeRegions = (regionA * 0.52 + regionB * 0.38) * (0.6 + filaments * 0.4);
-    float plasma = noise3(vPosition * 3.8 + vec3(uTime * 0.08, -uTime * 0.045, uTime * 0.025));
-    float granulation = noise3(vPosition * 12.0 - vec3(uTime * 0.12));
-    float convection = cells * 0.12 + (filaments - 0.5) * 0.07;
-    float heat = clamp(plasma * 0.68 + granulation * 0.32 + convection, 0.0, 1.0);
-    vec3 color = mix(vec3(0.72, 0.045, 0.002), vec3(1.42, 0.47, 0.025), heat);
-    color = mix(color, vec3(1.62, 0.9, 0.26), smoothstep(0.7, 0.94, heat) * 0.58);
-    color *= 0.72 + sourceContrast * 0.38;
-    color *= 1.0 - max(sunspot * 0.84, activeRegions);
-    color += rim * vec3(0.56, 0.08, 0.004);
+    float sunspot = 1.0 - smoothstep(0.055, 0.3, photosphere);
+    vec3 drift = vec3(uTime * 0.018, -uTime * 0.012, 0.0);
+    float broadCells = noise3(vPosition * 4.2 + drift);
+    float convection = noise3(vPosition * 13.0 - drift * 0.7);
+    float granules = noise3(vPosition * 52.0 + drift * 1.6);
+    float heat = smoothstep(0.25, 0.76, broadCells * 0.24 + convection * 0.56 + granules * 0.2);
+    // Convection has several scales; fine grains must not flatten the golden disk.
+    vec3 color = mix(vec3(0.64, 0.1, 0.012), vec3(1.42, 0.63, 0.13), heat);
+    color *= 0.43 + 0.57 * pow(facing, 0.42);
+    color *= (0.9 + photosphere * 0.2) * (1.0 - sunspot * 0.9);
     gl_FragColor = vec4(color, 1.0);
+    #include <colorspace_fragment>
   }
 `;
 
-const ATMOSPHERE_VERTEX_SHADER = `
-  varying vec3 vNormal;
+const EARTH_FRAGMENT_SHADER = `
+  uniform sampler2D uDayMap;
+  uniform sampler2D uNightMap;
+  uniform vec3 uSunPosition;
+  varying vec2 vUv;
   varying vec3 vWorldNormal;
-  varying vec3 vViewPosition;
   varying vec3 vWorldPosition;
   void main() {
-    vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
-    vViewPosition = viewPosition.xyz;
-    vNormal = normalize(normalMatrix * normal);
-    vWorldNormal = normalize(mat3(modelMatrix) * normal);
-    vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
-    gl_Position = projectionMatrix * viewPosition;
+    vec3 normal = normalize(vWorldNormal);
+    vec3 lightDirection = normalize(uSunPosition - vWorldPosition);
+    vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
+    float illumination = dot(normal, lightDirection);
+    float daylight = smoothstep(-0.12, 0.22, illumination);
+    vec3 source = texture2D(uDayMap, vUv).rgb;
+    // The source's nearly black open ocean needs a water response, not albedo relief.
+    float ocean = smoothstep(0.006, 0.025, source.b - max(source.r, source.g));
+    ocean *= 1.0 - smoothstep(0.045, 0.16, max(source.r, source.g));
+    vec3 surface = mix(source, vec3(0.013, 0.055, 0.15), ocean * 0.88);
+    vec3 color = surface * (0.022 + daylight * (0.22 + max(illumination, 0.0) * 1.45));
+    vec3 halfDirection = normalize(lightDirection + viewDirection);
+    float glint = pow(max(dot(normal, halfDirection), 0.0), 72.0);
+    color += vec3(0.6, 0.76, 0.94) * glint * ocean * daylight * 0.35;
+    vec3 cities = texture2D(uNightMap, vUv).rgb;
+    float lights = pow(max(max(cities.r, cities.g) - 0.12, 0.0), 2.3);
+    color += vec3(1.0, 0.5, 0.13) * lights * (1.0 - smoothstep(-0.2, 0.08, illumination)) * 0.72;
+    float fresnel = pow(1.0 - max(dot(normal, viewDirection), 0.0), 3.5);
+    color += vec3(0.07, 0.27, 0.56) * fresnel * daylight * 0.25;
+    gl_FragColor = vec4(color, 1.0);
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
+  }
+`;
+
+const CLOUD_FRAGMENT_SHADER = `
+  uniform sampler2D uCloudMap;
+  uniform vec3 uSunPosition;
+  varying vec2 vUv;
+  varying vec3 vWorldNormal;
+  varying vec3 vWorldPosition;
+  void main() {
+    float cloud = texture2D(uCloudMap, vUv).g;
+    float density = smoothstep(0.2, 0.82, cloud);
+    float illumination = dot(normalize(vWorldNormal), normalize(uSunPosition - vWorldPosition));
+    float daylight = smoothstep(-0.1, 0.25, illumination);
+    vec3 color = mix(vec3(0.016, 0.027, 0.045), vec3(0.87, 0.93, 1.0), daylight);
+    color *= 0.33 + max(illumination, 0.0) * 1.1;
+    gl_FragColor = vec4(color, density * 0.76);
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
   }
 `;
 
@@ -88,46 +124,17 @@ const ATMOSPHERE_FRAGMENT_SHADER = `
   uniform vec3 uColor;
   uniform float uStrength;
   uniform vec3 uSunPosition;
-  varying vec3 vNormal;
   varying vec3 vWorldNormal;
-  varying vec3 vViewPosition;
   varying vec3 vWorldPosition;
   void main() {
-    vec3 viewDirection = normalize(-vViewPosition);
+    vec3 normal = normalize(vWorldNormal);
+    vec3 viewDirection = normalize(cameraPosition - vWorldPosition);
     vec3 sunDirection = normalize(uSunPosition - vWorldPosition);
-    float fresnel = pow(1.0 - max(0.0, dot(vNormal, viewDirection)), 2.6);
-    float daylight = smoothstep(-0.3, 0.45, dot(vWorldNormal, sunDirection));
-    gl_FragColor = vec4(uColor * (0.45 + daylight * 0.75), fresnel * uStrength * (0.35 + daylight * 0.65));
-  }
-`;
-
-const NIGHT_LIGHTS_VERTEX_SHADER = `
-  varying vec2 vUv;
-  varying vec3 vWorldNormal;
-  varying vec3 vWorldPosition;
-  void main() {
-    vUv = uv;
-    vWorldNormal = normalize(mat3(modelMatrix) * normal);
-    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-    vWorldPosition = worldPosition.xyz;
-    gl_Position = projectionMatrix * viewMatrix * worldPosition;
-  }
-`;
-
-const NIGHT_LIGHTS_FRAGMENT_SHADER = `
-  uniform sampler2D uNightMap;
-  uniform vec3 uSunPosition;
-  varying vec2 vUv;
-  varying vec3 vWorldNormal;
-  varying vec3 vWorldPosition;
-  void main() {
-    vec3 source = texture2D(uNightMap, vUv).rgb;
-    vec3 cityLight = pow(max(source - vec3(0.08), vec3(0.0)) * 1.08, vec3(3.2));
-    vec3 lightDirection = normalize(uSunPosition - vWorldPosition);
-    float nightSide = 1.0 - smoothstep(-0.18, 0.24, dot(normalize(vWorldNormal), lightDirection));
-    vec3 emission = cityLight * vec3(1.0, 0.62, 0.28) * nightSide * 2.15;
-    float alpha = max(emission.r, max(emission.g, emission.b));
-    gl_FragColor = vec4(emission, alpha);
+    // Back-side shells need abs: clamping a negative dot makes the whole shell glow.
+    float fresnel = pow(1.0 - abs(dot(normal, viewDirection)), 3.2);
+    float daylight = smoothstep(-0.2, 0.45, dot(normal, sunDirection));
+    gl_FragColor = vec4(uColor, fresnel * uStrength * (0.08 + daylight * 0.92));
+    #include <colorspace_fragment>
   }
 `;
 
@@ -141,10 +148,10 @@ function Atmosphere({ radius, color, strength = 0.35 }: { radius: number; color:
     [color, strength],
   );
   return (
-    <mesh scale={1.025}>
-      <sphereGeometry args={[radius, 48, 48]} />
+    <mesh scale={1.018}>
+      <sphereGeometry args={[radius, 64, 48]} />
       <shaderMaterial
-        vertexShader={ATMOSPHERE_VERTEX_SHADER}
+        vertexShader={SURFACE_VERTEX_SHADER}
         fragmentShader={ATMOSPHERE_FRAGMENT_SHADER}
         uniforms={uniforms}
         transparent
@@ -155,41 +162,6 @@ function Atmosphere({ radius, color, strength = 0.35 }: { radius: number; color:
       />
     </mesh>
   );
-}
-
-function createRockGeometry() {
-  const geometry = new THREE.IcosahedronGeometry(BODIES[1].radius, 5);
-  const positions = geometry.attributes.position as THREE.BufferAttribute;
-  const point = new THREE.Vector3();
-  const craters = [
-    { direction: new THREE.Vector3(0.82, 0.34, 0.46).normalize(), radius: 0.34, depth: 0.12 },
-    { direction: new THREE.Vector3(-0.52, 0.58, 0.63).normalize(), radius: 0.22, depth: 0.075 },
-    { direction: new THREE.Vector3(0.18, -0.76, 0.62).normalize(), radius: 0.18, depth: 0.06 },
-    { direction: new THREE.Vector3(-0.72, -0.42, -0.55).normalize(), radius: 0.27, depth: 0.085 },
-    { direction: new THREE.Vector3(0.48, 0.72, -0.5).normalize(), radius: 0.14, depth: 0.045 },
-  ];
-  for (let index = 0; index < positions.count; index += 1) {
-    point.fromBufferAttribute(positions, index);
-    const direction = point.clone().normalize();
-    let displacement =
-      1 +
-      Math.sin(direction.x * 15 + direction.z * 7) * 0.035 +
-      Math.sin(direction.y * 23 - direction.x * 5) * 0.025;
-    for (const crater of craters) {
-      const angle = Math.acos(THREE.MathUtils.clamp(direction.dot(crater.direction), -1, 1));
-      const normalizedDistance = angle / crater.radius;
-      if (normalizedDistance < 1.2) {
-        const bowl = normalizedDistance < 1 ? (Math.cos(normalizedDistance * Math.PI) + 1) * 0.5 : 0;
-        const rim = Math.exp(-Math.pow((normalizedDistance - 1.02) / 0.11, 2));
-        displacement += rim * crater.depth * 0.26 - bowl * crater.depth;
-      }
-    }
-    point.multiplyScalar(displacement);
-    positions.setXYZ(index, point.x, point.y, point.z);
-  }
-  positions.needsUpdate = true;
-  geometry.computeVertexNormals();
-  return geometry;
 }
 
 export function Helios({ reducedMotion }: { reducedMotion: boolean }) {
@@ -204,17 +176,31 @@ export function Helios({ reducedMotion }: { reducedMotion: boolean }) {
     () => ({ uTime: { value: 0 }, uSurfaceMap: { value: surfaceTexture } }),
     [surfaceTexture],
   );
-  useFrame(({ clock }) => {
-    uniforms.uTime.value = reducedMotion ? 0 : clock.elapsedTime;
+  useFrame((_, delta) => {
+    if (!reducedMotion) uniforms.uTime.value += Math.min(delta, 0.05);
   });
 
   return (
     <group position={BODIES[0].position}>
-      <pointLight color="#fff1d8" intensity={52} distance={28} decay={1.75} castShadow shadow-mapSize={[512, 512]} />
-      <mesh castShadow>
-        <sphereGeometry args={[BODIES[0].radius, 96, 96]} />
+      <pointLight color="#fff4e5" intensity={42} distance={28} decay={1.75} castShadow shadow-mapSize={[512, 512]} />
+      <Billboard>
+        <mesh>
+          <planeGeometry args={[BODIES[0].radius * 5, BODIES[0].radius * 5]} />
+          <shaderMaterial transparent depthWrite={false} blending={THREE.AdditiveBlending} toneMapped={false}
+            vertexShader={`varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`}
+            fragmentShader={`varying vec2 vUv; void main() {
+              float radius = length(vUv - 0.5);
+              float glow = exp(-radius * radius * 38.0) * 0.2;
+              gl_FragColor = vec4(1.0, 0.42, 0.12, glow);
+            }`}
+          />
+        </mesh>
+      </Billboard>
+      {/* The photosphere must not cast a shadow around its own central light. */}
+      <mesh>
+        <sphereGeometry args={[BODIES[0].radius, 96, 64]} />
         <shaderMaterial
-          vertexShader={SUN_VERTEX_SHADER}
+          vertexShader={SURFACE_VERTEX_SHADER}
           fragmentShader={SUN_FRAGMENT_SHADER}
           uniforms={uniforms}
           toneMapped={false}
@@ -226,7 +212,6 @@ export function Helios({ reducedMotion }: { reducedMotion: boolean }) {
 
 export function Nyx({ reducedMotion }: { reducedMotion: boolean }) {
   const planet = useRef<THREE.Group>(null);
-  const geometry = useMemo(createRockGeometry, []);
   const texture = useTexture(MARS_SURFACE_URL);
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -235,49 +220,23 @@ export function Nyx({ reducedMotion }: { reducedMotion: boolean }) {
     texture.needsUpdate = true;
   }, [texture]);
   useFrame((_, delta) => {
-    if (planet.current && !reducedMotion) planet.current.rotation.y += delta * 0.12;
+    if (planet.current && !reducedMotion) planet.current.rotation.y += delta * 0.045;
   });
   return (
     <group ref={planet} position={BODIES[1].position} rotation={[0.25, 1.45, -0.36]}>
-      <mesh geometry={geometry} castShadow receiveShadow>
+      <mesh castShadow receiveShadow>
+        <sphereGeometry args={[BODIES[1].radius, 96, 64]} />
         <meshStandardMaterial
           map={texture}
-          roughness={0.88}
+          color="#edc6ad"
+          roughness={0.94}
           metalness={0}
           bumpMap={texture}
-          bumpScale={0.032}
-          emissive="#ff8a52"
-          emissiveMap={texture}
-          emissiveIntensity={0.2}
+          bumpScale={0.003}
         />
       </mesh>
-      <Atmosphere radius={BODIES[1].radius} color="#d58b5d" strength={0.12} />
+      <Atmosphere radius={BODIES[1].radius} color="#d59874" strength={0.13} />
     </group>
-  );
-}
-
-function EarthNightLights({ texture }: { texture: THREE.Texture }) {
-  const uniforms = useMemo(
-    () => ({
-      uNightMap: { value: texture },
-      uSunPosition: { value: BODIES[0].position },
-    }),
-    [texture],
-  );
-
-  return (
-    <mesh scale={1.002}>
-      <sphereGeometry args={[BODIES[2].radius, 96, 96]} />
-      <shaderMaterial
-        vertexShader={NIGHT_LIGHTS_VERTEX_SHADER}
-        fragmentShader={NIGHT_LIGHTS_FRAGMENT_SHADER}
-        uniforms={uniforms}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-        toneMapped={false}
-      />
-    </mesh>
   );
 }
 
@@ -298,40 +257,41 @@ export function Pelagos({ reducedMotion }: { reducedMotion: boolean }) {
       texture.needsUpdate = true;
     }
   }, [cloudTexture, dayTexture, nightTexture]);
+  const surfaceUniforms = useMemo(
+    () => ({
+      uDayMap: { value: dayTexture },
+      uNightMap: { value: nightTexture },
+      uSunPosition: { value: BODIES[0].position },
+    }),
+    [dayTexture, nightTexture],
+  );
+  const cloudUniforms = useMemo(
+    () => ({ uCloudMap: { value: cloudTexture }, uSunPosition: { value: BODIES[0].position } }),
+    [cloudTexture],
+  );
   useFrame((_, delta) => {
     if (!reducedMotion) {
-      if (planet.current) planet.current.rotation.y += delta * 0.07;
-      if (clouds.current) clouds.current.rotation.y -= delta * 0.11;
+      if (planet.current) planet.current.rotation.y += delta * 0.025;
+      if (clouds.current) clouds.current.rotation.y += delta * 0.012;
     }
   });
   return (
     <group ref={planet} position={BODIES[2].position} rotation={[0.18, -0.25, 0.22]}>
-      <mesh castShadow receiveShadow>
-        <sphereGeometry args={[BODIES[2].radius, 96, 96]} />
-        <meshPhysicalMaterial
-          map={dayTexture}
-          bumpMap={dayTexture}
-          bumpScale={0.018}
-          roughness={0.54}
-          metalness={0}
-          clearcoat={0.4}
-          clearcoatRoughness={0.24}
-        />
+      <mesh castShadow>
+        <sphereGeometry args={[BODIES[2].radius, 96, 64]} />
+        <shaderMaterial vertexShader={SURFACE_VERTEX_SHADER} fragmentShader={EARTH_FRAGMENT_SHADER} uniforms={surfaceUniforms} />
       </mesh>
-      <EarthNightLights texture={nightTexture} />
-      <mesh ref={clouds} scale={1.016}>
-        <sphereGeometry args={[BODIES[2].radius, 64, 64]} />
-        <meshStandardMaterial
-          color="#f5f7f8"
-          alphaMap={cloudTexture}
+      <mesh ref={clouds} scale={1.009}>
+        <sphereGeometry args={[BODIES[2].radius, 64, 48]} />
+        <shaderMaterial
+          vertexShader={SURFACE_VERTEX_SHADER}
+          fragmentShader={CLOUD_FRAGMENT_SHADER}
+          uniforms={cloudUniforms}
           transparent
-          opacity={0.72}
-          alphaTest={0.08}
           depthWrite={false}
-          roughness={0.9}
         />
       </mesh>
-      <Atmosphere radius={BODIES[2].radius} color="#4fa7e8" strength={0.22} />
+      <Atmosphere radius={BODIES[2].radius} color="#69b8ff" strength={0.45} />
     </group>
   );
 }

@@ -1,368 +1,134 @@
 .orbital-experience {
-  --orbital-ink: #f8f3e6;
-  --orbital-muted: #9a98ab;
-  --orbital-line: rgba(221, 216, 255, 0.16);
-  --orbital-gold: #ffd369;
+  --orbital-ink: #f1eee5;
+  --orbital-muted: #99a5af;
+  --orbital-line: #c3d1da24;
+  --orbital-gold: #eac58a;
   position: relative;
   min-height: 0;
-  overflow: hidden;
-  background: #05050b;
+  overflow: auto;
+  background: #050a11;
   color: var(--orbital-ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   isolation: isolate;
 }
-
-.orbital-experience::before {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 42%, transparent 34%, rgba(5, 5, 11, 0.52) 100%),
-    linear-gradient(180deg, rgba(5, 5, 11, 0.46), transparent 24%, transparent 72%, rgba(5, 5, 11, 0.7));
-  content: "";
+.orbital-stage { position: relative; height: 100%; min-height: 640px; isolation: isolate; }
+.orbital-stage::before {
+  position: absolute; z-index: 1; inset: 0; pointer-events: none; content: "";
+  background: linear-gradient(90deg, #050a1159, transparent 40%), linear-gradient(0deg, #050a11 0%, #050a11d9 13%, transparent 32%, transparent 80%, #050a113d);
 }
-
-.orbital-canvas {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  cursor: grab;
-  touch-action: none;
+.orbital-canvas { position: absolute; z-index: 0; inset: 0; cursor: grab; }
+.orbital-canvas:active { cursor: grabbing; }
+.orbital-header, .orbital-itinerary, .orbital-viewbar, .orbital-deck { position: absolute; z-index: 2; }
+.orbital-header { top: 42px; left: 4%; pointer-events: none; }
+.orbital-kicker { display: flex; align-items: center; gap: 9px; margin: 0 0 20px; color: #b1bfc7; font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
+.orbital-kicker > span { width: 5px; height: 5px; border-radius: 50%; background: var(--orbital-gold); }
+.orbital-header h1 { margin: 0; font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-size: clamp(44px, 4.6vw, 70px); font-weight: 400; line-height: .96; letter-spacing: -.045em; }
+.orbital-header h1 span { display: block; color: #d0d9df; font-style: italic; }
+.orbital-intro { margin: 20px 0 0; color: var(--orbital-muted); font-size: 12px; line-height: 1.75; }
+.orbital-itinerary { top: 42px; right: 4%; width: 202px; pointer-events: none; }
+.orbital-itinerary__heading { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 14px; border-bottom: 1px solid var(--orbital-line); }
+.orbital-itinerary__heading > span { color: #c0c8ce; text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
+.orbital-itinerary__heading > strong { font-family: ui-monospace, monospace; font-size: 21px; font-weight: 400; }
+.orbital-itinerary__heading small { color: var(--orbital-muted); font-size: 10px; }
+.orbital-itinerary ol { list-style: none; margin: 0; padding: 0; }
+.orbital-itinerary li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--orbital-line); }
+.orbital-itinerary li > div { display: grid; gap: 3px; }
+.orbital-itinerary li strong { font-size: 12px; font-weight: 500; }
+.orbital-itinerary li div > span { color: var(--orbital-muted); font-size: 10px; }
+.orbital-world { width: 23px; height: 23px; flex-shrink: 0; border-radius: 50%; box-shadow: inset -7px -2px 9px #000b; }
+.orbital-world--pelagos { background: radial-gradient(ellipse at 30% 30%, #a4b7ac, #4b7d99 40%, #214665 80%); }
+.orbital-world--nyx { background: radial-gradient(ellipse at 30% 30%, #da9e71, #9b6348 45%, #482f28); }
+.orbital-world--helios { background: radial-gradient(ellipse at 35% 35%, #f5d597, #d58a43 60%, #9c4a2b); box-shadow: none; }
+.orbital-itinerary__check { margin-left: auto; color: #87939d; font-family: ui-monospace, monospace; font-size: 10px; }
+.orbital-itinerary .is-visited .orbital-itinerary__check { color: #a4d6bd; font-size: 15px; }
+.orbital-itinerary > p { color: #8d9aa5; font-size: 10px; margin-top: 14px; }
+.orbital-viewbar { bottom: 206px; right: 4%; left: 4%; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+.orbital-viewbar__caption { color: #7d8d99; text-transform: uppercase; letter-spacing: .17em; font-size: 9px; }
+.orbital-camera { display: flex; gap: 3px; padding: 4px; border: 1px solid var(--orbital-line); border-radius: 8px; background: #08101bbd; pointer-events: auto; }
+.orbital-camera button { border: 0; border-radius: 4px; padding: 10px 16px; background: transparent; color: #b4c0c8; cursor: pointer; font: inherit; font-size: 11px; min-height: 38px; }
+.orbital-camera button[aria-pressed="true"] { background: #c3d1da18; color: #fff6e6; }
+.orbital-camera button:disabled { opacity: .42; cursor: default; }
+.orbital-deck { right: 4%; left: 4%; bottom: 22px; border-top: 1px solid #c3d1da38; }
+.orbital-deck__main { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 96px; padding: 18px 0; }
+.orbital-phase { display: flex; align-items: center; gap: 8px; margin: 0 0 9px; color: var(--orbital-gold); font-size: 11px; font-weight: 500; }
+.orbital-signal { width: 5px; height: 5px; border-radius: 50%; background: var(--orbital-gold); }
+.orbital-signal--crashed, .orbital-signal--escaped, .orbital-signal--aiming-danger { background: #ea947c; }
+.orbital-signal--complete, .orbital-signal--aiming-assist { background: #a4d6bd; }
+.orbital-guide__copy { margin: 0; color: #c4ccd0; font-size: 13px; line-height: 1.6; }
+.orbital-actions { display: flex; align-items: center; gap: 20px; }
+.orbital-launch { display: flex; align-items: center; justify-content: space-between; gap: 30px; min-width: 188px; min-height: 50px; padding: 0 20px; border: 1px solid #f0d5a5; border-radius: 5px; background: var(--orbital-gold); color: #231d14; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 180ms; }
+.orbital-launch:hover { background: #f4d9ae; }
+.orbital-launch:disabled { opacity: .45; cursor: default; }
+.orbital-reset { min-height: 44px; border: 0; padding: 0 6px; background: none; color: #aab5bd; font: inherit; font-size: 11px; cursor: pointer; }
+.orbital-reset:hover { color: #fff6e6; }
+.orbital-experience button { -webkit-tap-highlight-color: transparent; }
+.orbital-experience button:focus-visible { outline: 2px solid #f0d5a5; outline-offset: 4px; }
+.orbital-deck__foot { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--orbital-line); padding-top: 20px; }
+.orbital-telemetry { display: flex; margin: 0; gap: 34px; }
+.orbital-telemetry > div { display: flex; align-items: baseline; gap: 12px; }
+.orbital-telemetry dt { color: #8a9aa6; font-size: 10px; }
+.orbital-telemetry dd { margin: 0; color: #d9e1e4; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; font-variant-numeric: tabular-nums; }
+.orbital-telemetry dd span { color: #8a9aa6; font-size: 10px; }
+.orbital-help { display: grid; gap: 6px; margin: 0; text-align: right; font-size: 10px; color: #99a8b3; }
+.orbital-help small { font-size: 9px; color: #83929d; }
+.orbital-loading { width: 280px; padding: 20px; color: #f1eee5; background: #080f19ee; border: 1px solid #c3d1da24; border-radius: 6px; font-size: 13px; text-align: center; }
+.orbital-loading span { display: block; margin-top: 8px; color: #9aaab6; font-size: 11px; }
+.orbital-body-label { display: grid; gap: 5px; pointer-events: none; white-space: nowrap; border-left: 1px solid #c4d6df6b; padding-left: 10px; }
+.orbital-body-label strong { color: #d8e1e4; font-family: ui-monospace, monospace; font-size: 9px; text-transform: uppercase; letter-spacing: .17em; font-weight: 400; }
+.orbital-body-label span { color: #8b9ba8; font-size: 8px; letter-spacing: .03em; }
+@media (max-width: 1100px) and (min-width: 761px) {
+  .orbital-header { top: 30px; }
+  .orbital-header h1 { font-size: 49px; }
+  .orbital-intro { font-size: 11px; }
+  .orbital-itinerary { top: 30px; width: 170px; }
+  .orbital-telemetry { gap: 20px; }
+  .orbital-telemetry > div { gap: 7px; }
+  .orbital-help > span { max-width: 215px; line-height: 1.5; }
 }
-
-.orbital-canvas:active {
-  cursor: grabbing;
-}
-
-.orbital-header,
-.orbital-controls,
-.orbital-guide,
-.orbital-telemetry,
-.orbital-help {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.orbital-help__mobile {
-  display: none;
-}
-
-.orbital-header {
-  top: clamp(22px, 4vw, 48px);
-  right: clamp(22px, 4vw, 58px);
-  left: clamp(22px, 4vw, 58px);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 32px;
-}
-
-.orbital-kicker,
-.orbital-mission span,
-.orbital-telemetry span,
-.orbital-score span {
-  margin: 0;
-  color: var(--orbital-muted);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.orbital-header h1 {
-  margin: 8px 0 0;
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
-  font-size: clamp(28px, 3.8vw, 52px);
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 0.94;
-}
-
-.orbital-mission {
-  display: grid;
-  max-width: 280px;
-  gap: 7px;
-  padding: 12px 0 12px 24px;
-  border-left: 1px solid var(--orbital-line);
-  text-align: right;
-}
-
-.orbital-mission strong {
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.orbital-guide {
-  top: 50%;
-  left: clamp(22px, 4vw, 58px);
-  display: flex;
-  align-items: center;
-  width: min(230px, 24vw);
-  gap: 12px;
-  transform: translateY(-50%);
-}
-
-.orbital-guide p {
-  margin: 0;
-  color: #bbb8c6;
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.orbital-guide__signal {
-  flex: 0 0 7px;
-  width: 7px;
-  height: 7px;
-  border: 1px solid var(--orbital-gold);
-  border-radius: 50%;
-  box-shadow: 0 0 18px rgba(255, 184, 72, 0.72);
-}
-
-.orbital-guide__signal--flying,
-.orbital-guide__signal--aiming-safe {
-  background: var(--orbital-gold);
-}
-
-.orbital-guide__signal--crashed,
-.orbital-guide__signal--aiming-danger {
-  border-color: #e06b60;
-  background: #e06b60;
-  box-shadow: 0 0 18px rgba(224, 107, 96, 0.6);
-}
-
-.orbital-guide__signal--complete,
-.orbital-guide__signal--aiming-assist {
-  border-color: #7de4bb;
-  background: #7de4bb;
-  box-shadow: 0 0 18px rgba(125, 228, 187, 0.6);
-}
-
-.orbital-telemetry {
-  top: 50%;
-  right: clamp(22px, 4vw, 58px);
-  display: grid;
-  min-width: 134px;
-  border-top: 1px solid var(--orbital-line);
-  transform: translateY(-50%);
-}
-
-.orbital-telemetry > div {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 22px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--orbital-line);
-}
-
-.orbital-telemetry strong {
-  color: var(--orbital-ink);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.04em;
-}
-
-.orbital-telemetry small {
-  color: #858293;
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0;
-}
-
-.orbital-controls {
-  right: clamp(22px, 4vw, 58px);
-  bottom: clamp(20px, 3.4vw, 42px);
-  left: clamp(22px, 4vw, 58px);
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.orbital-score {
-  display: grid;
-  gap: 4px;
-}
-
-.orbital-score strong {
-  color: var(--orbital-gold);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: clamp(22px, 3vw, 34px);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-}
-
-.orbital-actions {
-  display: flex;
-  gap: 8px;
-  pointer-events: auto;
-}
-
-.orbital-button {
-  min-height: 40px;
-  padding: 0 15px;
-  border: 1px solid rgba(229, 225, 255, 0.22);
-  border-radius: 999px;
-  background: rgba(10, 9, 18, 0.62);
-  backdrop-filter: blur(12px);
-  color: #d5d0df;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
-}
-
-.orbital-button:hover {
-  border-color: rgba(255, 211, 105, 0.62);
-  color: #fff4d8;
-  transform: translateY(-1px);
-}
-
-.orbital-button--primary {
-  border-color: var(--orbital-gold);
-  background: var(--orbital-gold);
-  color: #15100a;
-}
-
-.orbital-help {
-  bottom: clamp(82px, 9vw, 112px);
-  left: 50%;
-  margin: 0;
-  color: rgba(231, 225, 244, 0.55);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  transform: translateX(-50%);
-  white-space: nowrap;
-}
-
 @media (max-width: 760px) {
-  .orbital-header {
-    top: 18px;
-    right: 18px;
-    left: 18px;
-  }
-
-  .orbital-header h1 {
-    font-size: 30px;
-  }
-
-  .orbital-mission {
-    max-width: 144px;
-    padding-left: 14px;
-  }
-
-  .orbital-mission strong {
-    font-size: 12px;
-    line-height: 1.25;
-  }
-
-  .orbital-guide {
-    top: auto;
-    right: 18px;
-    bottom: 142px;
-    left: 18px;
-    width: auto;
-    padding: 11px 13px;
-    border: 1px solid var(--orbital-line);
-    border-radius: 10px;
-    background: rgba(8, 7, 14, 0.64);
-    backdrop-filter: blur(10px);
-    transform: none;
-  }
-
-  .orbital-guide p {
-    font-size: 12px;
-  }
-
-  .orbital-telemetry {
-    top: 122px;
-    right: 18px;
-    left: 18px;
-    grid-template-columns: repeat(3, 1fr);
-    min-width: 0;
-    border-bottom: 1px solid var(--orbital-line);
-    transform: none;
-  }
-
-  .orbital-telemetry > div {
-    display: grid;
-    justify-content: start;
-    gap: 4px;
-    padding: 9px 12px;
-    border-right: 1px solid var(--orbital-line);
-    border-bottom: 0;
-  }
-
-  .orbital-telemetry > div:first-child {
-    padding-left: 0;
-  }
-
-  .orbital-telemetry > div:last-child {
-    border-right: 0;
-  }
-
-  .orbital-telemetry strong {
-    font-size: 14px;
-  }
-
-  .orbital-controls {
-    right: 18px;
-    bottom: 16px;
-    left: 18px;
-    display: grid;
-    gap: 9px;
-  }
-
-  .orbital-score {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  .orbital-score strong {
-    font-size: 20px;
-  }
-
-  .orbital-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .orbital-actions .orbital-button--primary {
-    grid-column: 1 / -1;
-  }
-
-  .orbital-button {
-    min-height: 42px;
-    padding: 0 10px;
-    font-size: 8px;
-  }
-
-  .orbital-help {
-    bottom: 201px;
-  }
-
-  .orbital-help__desktop {
-    display: none;
-  }
-
-  .orbital-help__mobile {
-    display: inline;
-  }
+  .orbital-stage { min-height: 780px; }
+  .orbital-canvas canvas, .orbital-canvas > div { touch-action: pan-y !important; }
+  .orbital-header { top: 25px; left: 22px; }
+  .orbital-kicker { font-size: 8px; letter-spacing: .1em; margin-bottom: 14px; }
+  .orbital-header h1 { font-size: 41px; }
+  .orbital-header h1 span { display: inline; margin-left: 9px; }
+  .orbital-intro { font-size: 11px; line-height: 1.65; margin-top: 12px; }
+  .orbital-intro br { display: none; }
+  .orbital-intro br::after { content: " "; }
+  .orbital-itinerary { top: 153px; left: 22px; right: 22px; width: auto; }
+  .orbital-itinerary__heading { padding-bottom: 9px; }
+  .orbital-itinerary__heading > span { font-size: 9px; }
+  .orbital-itinerary__heading > strong { font-size: 16px; }
+  .orbital-itinerary ol { display: flex; justify-content: space-between; gap: 9px; }
+  .orbital-itinerary li { border: 0; gap: 7px; padding: 12px 0; }
+  .orbital-itinerary li strong { font-size: 10px; }
+  .orbital-itinerary li div > span { font-size: 8px; }
+  .orbital-itinerary__check { font-size: 8px; }
+  .orbital-world { width: 18px; height: 18px; }
+  .orbital-itinerary > p { display: none; }
+  .orbital-viewbar { left: 22px; right: 22px; bottom: 241px; justify-content: center; }
+  .orbital-viewbar__caption { display: none; }
+  .orbital-camera { border-radius: 6px; }
+  .orbital-camera button { min-height: 36px; padding: 7px 20px; font-size: 10px; }
+  .orbital-deck { left: 22px; right: 22px; bottom: 18px; }
+  .orbital-deck__main { display: grid; gap: 16px; padding: 17px 0 15px; min-height: 0; }
+  .orbital-phase { font-size: 10px; margin-bottom: 6px; }
+  .orbital-guide__copy { font-size: 11px; line-height: 1.6; min-height: 35px; }
+  .orbital-actions { flex-direction: row-reverse; gap: 20px; }
+  .orbital-launch { flex: 1; min-width: 0; min-height: 45px; font-size: 11px; }
+  .orbital-reset { padding: 0 12px; }
+  .orbital-deck__foot { display: grid; justify-content: stretch; gap: 13px; padding-top: 13px; }
+  .orbital-telemetry { justify-content: space-between; gap: 10px; }
+  .orbital-telemetry > div { display: grid; gap: 5px; }
+  .orbital-telemetry dt { font-size: 9px; }
+  .orbital-telemetry dd { font-size: 12px; }
+  .orbital-help { text-align: left; }
+  .orbital-help > span { display: none; }
+  .orbital-help small { font-size: 9px; }
+  .orbital-body-label { display: none; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .orbital-button {
-    transition: none;
-  }
+@media (max-width: 380px) {
+  .orbital-header h1 { font-size: 35px; }
+  .orbital-kicker { font-size: 7px; }
 }
+@media (prefers-reduced-motion: reduce) { .orbital-launch { transition: none; } }
